@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/29 14:47:48 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/01 17:28:48 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/01 19:29:24 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_node	*create_node(t_coder new_coder)
 		return (NULL);
 	coder_place->data = new_coder;
 	coder_place->next = NULL;
+	coder_place->prev = NULL;
 	return (coder_place);
 }
 
@@ -39,6 +40,7 @@ void	insert_head(t_node **tail, t_coder new_coder)
 	else
 	{
 		new_node->next = (*tail)->next;
+		new_node->next->prev = *tail;
 		(*tail)->next = new_node;
 	}
 }
@@ -47,6 +49,7 @@ void	insert_head(t_node **tail, t_coder new_coder)
 void	insert_tail(t_node **tail, t_coder new_coder)
 {
 	t_node	*new_node;
+	t_node	*temp;
 
 	new_node = create_node(new_coder);
 	if (*tail == NULL)
@@ -58,7 +61,13 @@ void	insert_tail(t_node **tail, t_coder new_coder)
 	{
 		new_node->next = (*tail)->next;
 		(*tail)->next = new_node;
+		temp = (*tail);
 		*tail = new_node;
+		(*tail)->prev = temp;
+
+		// new_node->next = (*tail)->next;
+		// (*tail)->next = new_node;
+		// *tail = new_node;
 	}
 }
 
@@ -75,14 +84,14 @@ void	print_list(t_node *tail)
 	{
 		tail = tail->next;
 		id = tail->data.coder_id;
-		printf("coder: %d\n", id);
+		printf("coder: %d prev: %p curr: %p next: %p\n", id, tail->prev, tail, tail->next);
 		if (tail == start)
 			break ;
 	}
 	printf("\n\n");
 }
 
-// Libera la memoria dei nodi
+// Libera la memoria dai nodi
 void	node_clean(t_node *tail, int num_cod)
 {
 	t_node	*temp;

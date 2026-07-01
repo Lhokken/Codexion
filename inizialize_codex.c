@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/01 17:34:55 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/01 18:51:09 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,5 @@ void	data_print(t_data data)
 		data.number_of_compiles_required);
 	printf("dongle_cooldown %d\n", data.dongle_cooldown);
 	printf("scheduler %s\n", data.scheduler);
+	printf("\n");
 }

@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/28 17:07:38 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/01 17:33:44 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/01 18:58:37 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <sys/time.h>
 
 typedef struct s_coder
 {
@@ -39,6 +40,7 @@ typedef struct t_node
 {
 	t_coder			data;
 	struct t_node	*next;
+	struct t_node	*prev;
 }	t_node;
 
 typedef struct s_data

@@ -11,6 +11,10 @@ TEST_SRC = codex.c
 
 TEST_NAME = test
 
+TEST_DATA = 15 200 200 500 600 100 250 fifo
+
+VALG = valgrind -s --leak-check=full --show-leak-kinds=all --track-origins=yes -s
+
 all: $(NAME) cc
 
 $(NAME): $(OBJS)
@@ -28,8 +32,8 @@ cc: $(NAME) $(TEST_SRC)
 	$(CC) $(CFLAGS) $(SRCS) -L. -l_codex -o $(TEST_NAME)
 
 run:
-	./$(TEST_NAME) 10 200 200 500 600 100 250 fifo
+	./$(TEST_NAME) $(TEST_DATA)
 
 val:
-	valgrind -s --leak-check=full --show-leak-kinds=all --track-origins=yes -s ./$(TEST_NAME) 10 200 200 500 600 100 250 fifo
+	$(VALG) ./$(TEST_NAME) $(TEST_DATA)
 .PHONY: all clean fclean re cc run val

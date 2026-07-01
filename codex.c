@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/01 17:36:07 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/01 19:34:11 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	main(int argc, char **argv)
 			table->data.coder_id = i;
 			i++;
 		}
+		table->next->prev = table;
 	}
 	else
 		printf("\nRequired exactly 8 arguments\n\n");
