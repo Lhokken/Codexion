@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/29 14:47:48 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/01 19:29:24 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/02 00:09:33 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_node	*create_node(t_coder new_coder)
 	coder_place = malloc(sizeof(t_node));
 	if (!coder_place)
 		return (NULL);
-	coder_place->data = new_coder;
+	coder_place->coder = new_coder;
 	coder_place->next = NULL;
 	coder_place->prev = NULL;
 	return (coder_place);
@@ -55,7 +55,7 @@ void	insert_tail(t_node **tail, t_coder new_coder)
 	if (*tail == NULL)
 	{
 		new_node->next = new_node;
-		tail = &new_node;
+		*tail = new_node;
 	}
 	else
 	{
@@ -64,10 +64,6 @@ void	insert_tail(t_node **tail, t_coder new_coder)
 		temp = (*tail);
 		*tail = new_node;
 		(*tail)->prev = temp;
-
-		// new_node->next = (*tail)->next;
-		// (*tail)->next = new_node;
-		// *tail = new_node;
 	}
 }
 
@@ -83,8 +79,10 @@ void	print_list(t_node *tail)
 	while (1)
 	{
 		tail = tail->next;
-		id = tail->data.coder_id;
-		printf("coder: %d prev: %p curr: %p next: %p\n", id, tail->prev, tail, tail->next);
+		id = tail->coder.coder_id;
+		// printf("coder: %d prev: %p curr: %p next: %p\n", id, tail->prev, tail, tail->next);
+		printf("coder: %d left: %p right: %p\n",
+			id, tail->coder.left_dongle, tail->coder.right_dongle);
 		if (tail == start)
 			break ;
 	}

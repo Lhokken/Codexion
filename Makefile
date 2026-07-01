@@ -1,9 +1,9 @@
 NAME = lib_codex.a
 
-CC = cc
+CC = gcc
 CFLAGS = -g -Wall -Wextra -Werror
 
-SRCS = codex.c round_list.c inizialize_codex.c
+SRCS = codex.c round_list.c inizialize_codex.c dongle_inizialize.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -11,19 +11,21 @@ TEST_SRC = codex.c
 
 TEST_NAME = test
 
-TEST_DATA = 15 200 200 500 600 100 250 fifo
+TEST_DATA = 6 200 200 500 600 100 250 fifo
 
 VALG = valgrind -s --leak-check=full --show-leak-kinds=all --track-origins=yes -s
 
-all: $(NAME) cc
+HELG = valgrind --tool=helgrind
 
 $(NAME): $(OBJS)
 	ar rcs $(NAME) $(OBJS)
 
+all: $(NAME) cc run
+
 clean:
 	rm -f $(OBJS)
 
-fclean: clean
+fclean:
 	rm -f $(OBJS) $(NAME) $(TEST_NAME)
 
 re: fclean all
@@ -36,4 +38,8 @@ run:
 
 val:
 	$(VALG) ./$(TEST_NAME) $(TEST_DATA)
-.PHONY: all clean fclean re cc run val
+
+hel:
+	$(HELG) ./$(TEST_NAME) $(TEST_DATA)
+
+.PHONY: all clean fclean re cc run val hel

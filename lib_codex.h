@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/28 17:07:38 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/01 18:58:37 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/01 23:19:08 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,14 @@
 
 typedef struct s_coder
 {
-	int	coder_id;
-	int	time_to_burnout;
-	int	time_to_compile;
-	int	time_to_debug;
-	int	time_to_refactor;
-	int	number_of_compiles_required;
+	int		coder_id;
+	char	*right_dongle;
+	char	*left_dongle;
+	int		time_to_burnout;
+	int		time_to_compile;
+	int		time_to_debug;
+	int		time_to_refactor;
+	int		number_of_compiles_required;
 }	t_coder;
 
 typedef struct s_dongle
@@ -38,7 +40,7 @@ typedef struct s_dongle
 
 typedef struct t_node
 {
-	t_coder			data;
+	t_coder			coder;
 	struct t_node	*next;
 	struct t_node	*prev;
 }	t_node;
@@ -72,5 +74,7 @@ void	node_clean(t_node *tail, int num_cod);
 t_data	data_inizialize(void);
 t_data	data_define(t_data data, char **argv);
 void	data_print(t_data data);
+t_coder	coder_gen(t_data data, int id);
+char	*dongle_create(void);
 
 #endif
