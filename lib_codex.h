@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/28 17:07:38 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/01 12:55:10 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/01 15:09:48 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	insert_head(Node **tail, t_coder new_coder);
 void	insert_tail(Node **tail, t_coder new_coder);
 
 // Percorre la lista e stampa i valori (attento alla condizione di uscita!)
-void	print_list(Node **tail);
+void	print_list(Node *tail);
 
 t_data	data_inizialize();
 t_data	data_define(t_data data, char **argv);
