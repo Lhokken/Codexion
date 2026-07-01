@@ -1,7 +1,7 @@
 NAME = lib_codex.a
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -g -Wall -Wextra -Werror
 
 SRCS = codex.c round_list.c inizialize_codex.c
 
@@ -30,4 +30,6 @@ cc: $(NAME) $(TEST_SRC)
 run:
 	./$(TEST_NAME) 10 200 200 500 600 100 250 fifo
 
-.PHONY: all clean fclean re cc run
+val:
+	valgrind -s --leak-check=full --show-leak-kinds=all --track-origins=yes -s ./$(TEST_NAME) 10 200 200 500 600 100 250 fifo
+.PHONY: all clean fclean re cc run val
