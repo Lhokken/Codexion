@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/03 19:43:30 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/03 21:38:21 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,12 @@ void working_flow(t_node *table, t_data data)
 	check = data.number_of_coders;
 	while (check > 0)
 	{
-		
-		if (table->coder.number_of_compiles_required > 0)
-		working_steps(table, data);
-		else
-		check -= 1;
+
 		table = table->next;
+		if (table->coder.number_of_compiles_required >= 0)
+			working_steps(table, data);
+		else
+			check -= 1;
 		// printf("coder: %d left: %p right: %p\n",
 		// id, table->coder.left_dongle, table->coder.right_dongle);
 
@@ -67,12 +67,12 @@ int	main(int argc, char **argv)
 
 	i = 2;
 	data = data_inizialize();
+	data = data_define(data, argv);
 	coder = coder_gen(data, 1);
 	table = NULL;
 	insert_head(&table, coder);
 	if (argc == 9)
 	{
-		data = data_define(data, argv);
 		data_print(data);
 		while (i <= data.number_of_coders)
 		{
