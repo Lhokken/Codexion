@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/28 17:07:38 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/01 23:19:08 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/03 17:48:29 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,20 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/time.h>
+# include <pthread.h>
 
 typedef struct s_coder
 {
-	int		coder_id;
-	char	*right_dongle;
-	char	*left_dongle;
-	int		time_to_burnout;
-	int		time_to_compile;
-	int		time_to_debug;
-	int		time_to_refactor;
-	int		number_of_compiles_required;
+	int				coder_id;
+	char			*right_dongle;
+	char			*left_dongle;
+	int				time_to_burnout;
+	int				time_to_compile;
+	int				time_to_debug;
+	int				time_to_refactor;
+	int				number_of_compiles_required;
+	struct timeval	start;
+	struct timeval	end;
 }	t_coder;
 
 typedef struct s_dongle
@@ -76,5 +79,10 @@ t_data	data_define(t_data data, char **argv);
 void	data_print(t_data data);
 t_coder	coder_gen(t_data data, int id);
 char	*dongle_create(void);
+
+void compile(t_node *table, t_data data);
+void debug(t_node *table);
+void refactor(t_node *table);
+void cooldown(t_data data);
 
 #endif

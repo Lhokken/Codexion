@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/29 14:47:48 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/01 23:26:17 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/03 19:39:04 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,15 @@
 char	*dongle_create(void)
 {
 	char	*dongle;
+	int		dongle_cap;
 	int		i;
 
-	dongle = malloc(10 * sizeof(char));
+	dongle_cap = 10;
+	dongle = malloc(dongle_cap * sizeof(char) + 1);
 	i = 0;
 	if (!dongle)
 		return (NULL);
-	while(i < 10)
+	while(i < dongle_cap)
 	{
 		dongle[i] = 'a';
 		i++;
@@ -41,5 +43,6 @@ t_coder	coder_gen(t_data data, int id)
 	coder.time_to_burnout = data.time_to_burnout;
 	coder.time_to_compile = data.time_to_compile;
 	coder.time_to_refactor = data.time_to_refactor;
+	coder.time_to_debug = data.time_to_debug;
 	return (coder);
 }
