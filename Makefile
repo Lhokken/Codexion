@@ -1,7 +1,7 @@
 NAME = lib_codex.a
 
 CC = gcc
-CFLAGS = -g -Wall -Wextra -Werror
+CFLAGS = -g -Wall -Wextra -Werror -pthread
 
 SRCS = codex.c round_list.c inizialize_codex.c dongle_inizialize.c work_steps.c
 
@@ -11,7 +11,7 @@ TEST_SRC = codex.c
 
 TEST_NAME = test
 
-TEST_DATA = 6 200 200 500 600 100 250 fifo
+TEST_DATA = 10 20 20 50 60 10 50 fifo
 
 VALG = valgrind -s --leak-check=full --show-leak-kinds=all --track-origins=yes -s
 

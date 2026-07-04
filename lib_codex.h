@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/28 17:07:38 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/03 17:48:29 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/04 14:03:16 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_coder
 	int				time_to_debug;
 	int				time_to_refactor;
 	int				number_of_compiles_required;
+	long			total_time;
 	struct timeval	start;
 	struct timeval	end;
 }	t_coder;
@@ -44,6 +45,7 @@ typedef struct s_dongle
 typedef struct t_node
 {
 	t_coder			coder;
+	pthread_t		id_thread;
 	struct t_node	*next;
 	struct t_node	*prev;
 }	t_node;
@@ -83,6 +85,6 @@ char	*dongle_create(void);
 void compile(t_node *table, t_data data);
 void debug(t_node *table);
 void refactor(t_node *table);
-void cooldown(t_data data);
+void cooldown(t_node *table, t_data data);
 
 #endif

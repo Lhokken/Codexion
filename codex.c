@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/03 21:38:21 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/04 13:57:36 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,29 +33,35 @@ int	check_work(t_node *table)
 
 void working_steps(t_node *table, t_data data)
 {
-	compile(table, data);
-	debug(table);
-	refactor(table);
+	while (table->coder.number_of_compiles_required > 0)
+	{
+		compile(table, data);
+		debug(table);
+		refactor(table);
+		cooldown(table, data);
+	}
 }
 
 void working_flow(t_node *table, t_data data)
 {
-	int check;
+	// int check;
+	t_node	*end;
 
-	check = data.number_of_coders;
-	while (check > 0)
+	// check = data.number_of_coders;
+	end = table;
+	table = table->next;
+	while (1)
 	{
-
+		
+		// if (table->coder.number_of_compiles_required >= 0)
+		working_steps(table, data);
+		if (table == end)
+			break ;
+		// check -= 1;
 		table = table->next;
-		if (table->coder.number_of_compiles_required >= 0)
-			working_steps(table, data);
-		else
-			check -= 1;
-		// printf("coder: %d left: %p right: %p\n",
-		// id, table->coder.left_dongle, table->coder.right_dongle);
-
-		// check = check_work(table);
+		
 	}
+	
 }
 
 int	main(int argc, char **argv)

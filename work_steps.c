@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/03 20:07:39 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/04 14:05:32 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void compile(t_node *table, t_data data)
 	struct timeval	start;
 	struct timeval	end;
 	// int				i;
-	long			t;
 
 	// i = 0;
 	gettimeofday(&start, NULL);
@@ -29,50 +28,57 @@ void compile(t_node *table, t_data data)
 	// 	table->coder.right_dongle[i++] += 1;
 
 	gettimeofday(&end, NULL);
-	t = end.tv_usec - start.tv_usec;
-	printf("%ld\t%d is compiling\n", t, table->coder.coder_id);
+	table->coder.total_time += end.tv_usec - start.tv_usec;
+	printf(
+		"%ld\t%d is compiling\n",
+		table->coder.total_time,
+		table->coder.coder_id
+	);
 }
 
 void debug(t_node *table)
 {
 	struct timeval	start;
 	struct timeval	end;
-	long			t;
-	int				vr;
 	
-	vr = table->coder.time_to_debug;
 	gettimeofday(&start, NULL);
-	usleep(vr);
+	usleep(table->coder.time_to_debug);
 	gettimeofday(&end, NULL);
-	t = end.tv_usec - start.tv_usec;
-	printf("%ld\t%d is debugging\n", t, table->coder.coder_id);
+	table->coder.total_time += end.tv_usec - start.tv_usec;
+	printf(
+		"%ld\t%d is compiling\n",
+		table->coder.total_time,
+		table->coder.coder_id
+	);
 }
 
 void refactor(t_node *table)
 {
 	struct timeval	start;
 	struct timeval	end;
-	long			t;
 
 	gettimeofday(&start, NULL);
 	usleep(table->coder.time_to_refactor);
 	gettimeofday(&end, NULL);
-	t = end.tv_usec - start.tv_usec;
-	printf("%ld\t%d is refactoring\n", t, table->coder.coder_id);
+	table->coder.total_time += end.tv_usec - start.tv_usec;
+	printf(
+		"%ld\t%d is compiling\n",
+		table->coder.total_time,
+		table->coder.coder_id
+	);
 	table->coder.number_of_compiles_required -= 1;
 }
 
-void cooldown(t_data data)
+void cooldown(t_node *table, t_data data)
 {
 	struct timeval	start;
 	struct timeval	end;
-	long			t;
 
 	gettimeofday(&start, NULL);
 	usleep(data.dongle_cooldown);
 	gettimeofday(&end, NULL);
-	t = end.tv_usec - start.tv_usec;
-	printf("%ld\t dongle cooldown\n", t);
+	table->coder.total_time += end.tv_usec - start.tv_usec;
+	printf("%ld\tdongle cooldown\n", table->coder.total_time);
 }
 
 // 0 	1 has taken a dongle
