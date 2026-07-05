@@ -15,7 +15,7 @@ TEST_DATA = 10 20 20 50 60 10 50 fifo
 
 VALG = valgrind -s --leak-check=full --show-leak-kinds=all --track-origins=yes -s
 
-HELG = valgrind --tool=helgrind
+HELG = valgrind -s --tool=helgrind
 
 $(NAME): $(OBJS)
 	ar rcs $(NAME) $(OBJS)

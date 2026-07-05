@@ -6,21 +6,22 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/04 14:05:32 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/05 17:49:07 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lib_codex.h"
 
-void compile(t_node *table, t_data data)
+void compile(t_node *table)
 {
 	struct timeval	start;
 	struct timeval	end;
 	// int				i;
 
 	// i = 0;
+	// pthread_mutex_lock(&table->print_lock);
 	gettimeofday(&start, NULL);
-	usleep(data.time_to_compile);
+	usleep(table->coder.time_to_compile);
 
 	// while (table->coder.left_dongle[i])
 	// 	table->coder.left_dongle[i++] += 1;
@@ -34,6 +35,7 @@ void compile(t_node *table, t_data data)
 		table->coder.total_time,
 		table->coder.coder_id
 	);
+	// pthread_mutex_unlock(&table->print_lock);
 }
 
 void debug(t_node *table)
@@ -69,13 +71,13 @@ void refactor(t_node *table)
 	table->coder.number_of_compiles_required -= 1;
 }
 
-void cooldown(t_node *table, t_data data)
+void cooldown(t_node *table)
 {
 	struct timeval	start;
 	struct timeval	end;
 
 	gettimeofday(&start, NULL);
-	usleep(data.dongle_cooldown);
+	usleep(table->coder.dongle_cooldown);
 	gettimeofday(&end, NULL);
 	table->coder.total_time += end.tv_usec - start.tv_usec;
 	printf("%ld\tdongle cooldown\n", table->coder.total_time);

@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/04 13:57:36 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/05 17:47:04 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,37 +31,46 @@ int	check_work(t_node *table)
 	return check;
 }
 
-void working_steps(t_node *table, t_data data)
+void *working_steps(void *tabl)
 {
+	t_node	*table;
+
+	table = (t_node*)tabl;
 	while (table->coder.number_of_compiles_required > 0)
 	{
-		compile(table, data);
+		compile(table);
 		debug(table);
 		refactor(table);
-		cooldown(table, data);
+		cooldown(table);
 	}
+	return NULL;
 }
 
-void working_flow(t_node *table, t_data data)
+void working_flow(t_node *table)
 {
-	// int check;
-	t_node	*end;
+	t_node			*end;
+	pthread_mutex_t	print_lock;
 
-	// check = data.number_of_coders;
+	end = table;
+	table = table->next;
+	pthread_mutex_init(&print_lock, NULL);
+	while (1)
+	{
+		table->print_lock = print_lock;
+		pthread_create(&table->id_thread, NULL, working_steps, table);
+		if (table == end)
+			break ;
+		table = table->next;
+	}
 	end = table;
 	table = table->next;
 	while (1)
 	{
-		
-		// if (table->coder.number_of_compiles_required >= 0)
-		working_steps(table, data);
+		pthread_join(table->id_thread, NULL);
 		if (table == end)
 			break ;
-		// check -= 1;
 		table = table->next;
-		
 	}
-	
 }
 
 int	main(int argc, char **argv)
@@ -79,7 +88,7 @@ int	main(int argc, char **argv)
 	insert_head(&table, coder);
 	if (argc == 9)
 	{
-		data_print(data);
+		// data_print(data);
 		while (i <= data.number_of_coders)
 		{
 			coder = coder_gen(data, i);
@@ -92,8 +101,7 @@ int	main(int argc, char **argv)
 	}
 	else
 		printf("\nRequired exactly 8 arguments\n\n");
-	print_list(table);
-
-	working_flow(table, data);
+	// print_list(table);
+	working_flow(table);
 	node_clean(table, data.number_of_coders);
 }
