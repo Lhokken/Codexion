@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/28 17:07:38 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/05 17:35:36 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/05 18:35:20 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef struct t_node
 {
 	t_coder			coder;
 	pthread_t		id_thread;
-	pthread_mutex_t	print_lock;
+	pthread_mutex_t	*print_lock;
 	struct t_node	*next;
 	struct t_node	*prev;
 }	t_node;

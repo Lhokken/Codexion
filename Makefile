@@ -11,7 +11,7 @@ TEST_SRC = codex.c
 
 TEST_NAME = test
 
-TEST_DATA = 10 20 20 50 60 10 50 fifo
+TEST_DATA = 200 20 20 50 60 10 50 fifo
 
 VALG = valgrind -s --leak-check=full --show-leak-kinds=all --track-origins=yes -s
 
@@ -28,7 +28,7 @@ clean:
 fclean:
 	rm -f $(OBJS) $(NAME) $(TEST_NAME)
 
-re: fclean all
+re: fclean all clean
 
 cc: $(NAME) $(TEST_SRC)
 	$(CC) $(CFLAGS) $(SRCS) -L. -l_codex -o $(TEST_NAME)

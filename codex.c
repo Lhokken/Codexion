@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/05 17:47:04 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/05 21:23:02 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void working_flow(t_node *table)
 	pthread_mutex_init(&print_lock, NULL);
 	while (1)
 	{
-		table->print_lock = print_lock;
+		table->print_lock = &print_lock;
 		pthread_create(&table->id_thread, NULL, working_steps, table);
 		if (table == end)
 			break ;
@@ -71,6 +71,7 @@ void working_flow(t_node *table)
 			break ;
 		table = table->next;
 	}
+	pthread_mutex_destroy(&print_lock);
 }
 
 int	main(int argc, char **argv)
