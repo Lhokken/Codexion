@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/29 14:47:48 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/03 18:03:46 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/07 17:50:48 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	insert_tail(t_node **tail, t_coder new_coder)
 	if (*tail == NULL)
 	{
 		new_node->next = new_node;
+		new_node->prev = new_node;
 		*tail = new_node;
 	}
 	else
@@ -64,6 +65,7 @@ void	insert_tail(t_node **tail, t_coder new_coder)
 		temp = (*tail);
 		*tail = new_node;
 		(*tail)->prev = temp;
+		new_node->next->prev = new_node;
 	}
 }
 
@@ -80,7 +82,6 @@ void	print_list(t_node *tail)
 	{
 		tail = tail->next;
 		id = tail->coder.coder_id;
-		// printf("coder: %d prev: %p curr: %p next: %p\n", id, tail->prev, tail, tail->next);
 		printf("coder: %d left: %p right: %p\n",
 			id, tail->coder.left_dongle, tail->coder.right_dongle);
 		if (tail == start)

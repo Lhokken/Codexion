@@ -6,30 +6,24 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/05 21:23:02 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/07 18:06:13 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lib_codex.h"
 
-int	check_work(t_node *table)
-{
-	t_node	*start;
-	int		check;
-
-	check = 0;
-	start = table;
-	while (1)
-	{
-		table = table->next;
-		check += table->coder.number_of_compiles_required;
-		if (table == start)
-		{
-			break ;
-		}
-	}
-	return check;
-}
+// void assign_priority_score(t_coder *coder, t_data *data)
+// {
+//     if (data->scheduler == "fifo")
+//     {
+//         coder->priority_score = data->global_ticket_dispenser;
+//         data->global_ticket_dispenser++;
+//     }
+//     else if (data->scheduler == "edf")
+//     {
+//         coder->priority_score = coder->time_to_compile + data->time_to_burnout;
+//     }
+// }
 
 void *working_steps(void *tabl)
 {
@@ -79,30 +73,34 @@ int	main(int argc, char **argv)
 	t_data			data;
 	t_coder			coder;
 	t_node			*table;
+	pthread_mutex_t	*dongle_lock;
 	int				i;
 
-	i = 2;
-	data = data_inizialize();
-	data = data_define(data, argv);
-	coder = coder_gen(data, 1);
+	i = 0;
 	table = NULL;
-	insert_head(&table, coder);
 	if (argc == 9)
-	{
-		// data_print(data);
-		while (i <= data.number_of_coders)
 		{
-			coder = coder_gen(data, i);
-			coder.coder_id = i;
-			insert_tail(&table, coder);
-			table->coder.left_dongle = table->prev->coder.right_dongle;
-			i++;
+		data = data_inizialize();
+		data = data_define(data, argv);
+		
+		dongle_lock = malloc(sizeof(pthread_mutex_t) * data.number_of_coders);
+			while (i < data.number_of_coders)
+			{
+				coder = coder_gen(data, i);
+				pthread_mutex_init(&dongle_lock[i], NULL);
+				coder.right_dongle_lock = &dongle_lock[i];
+				coder.coder_id = i;
+				insert_tail(&table, coder);
+				table->coder.left_dongle = table->prev->coder.right_dongle;
+				table->coder.left_dongle_lock = table->prev->coder.right_dongle_lock;
+				i++;
+			}
+			table->next->coder.left_dongle = table->coder.right_dongle;
+			table->next->coder.left_dongle_lock = table->coder.right_dongle_lock;
+			working_flow(table);
+			node_clean(table, data.number_of_coders);
+			free(dongle_lock);
 		}
-		table->next->coder.left_dongle = coder.right_dongle;
-	}
 	else
 		printf("\nRequired exactly 8 arguments\n\n");
-	// print_list(table);
-	working_flow(table);
-	node_clean(table, data.number_of_coders);
 }

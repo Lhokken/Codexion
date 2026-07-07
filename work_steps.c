@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/05 21:12:43 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/07 15:06:15 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,24 @@ void compile(t_node *table)
 {
 	struct timeval	start;
 	struct timeval	end;
+	int				i;
 
 	gettimeofday(&start, NULL);
 	usleep(table->coder.time_to_compile);
-
-	// while (table->coder.left_dongle[i])
-	// 	table->coder.left_dongle[i++] += 1;
-	// while (table->coder.right_dongle[i])
-	// 	table->coder.right_dongle[i++] += 1;
-
+	if (table->coder.coder_id % 2 == 0)
+		{	
+			while (table->coder.right_dongle[i])
+				table->coder.right_dongle[i++] += 1;
+			while (table->coder.left_dongle[i])
+				table->coder.left_dongle[i++] += 1;
+		}
+	else
+		{	
+			while (table->coder.left_dongle[i])
+				table->coder.left_dongle[i++] += 1;
+			while (table->coder.right_dongle[i])
+				table->coder.right_dongle[i++] += 1;
+		}
 	gettimeofday(&end, NULL);
 	table->coder.total_time += end.tv_usec - start.tv_usec;
 	codex_print(table, " is compiling");
