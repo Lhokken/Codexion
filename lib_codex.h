@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/28 17:07:38 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/07 15:19:39 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/07 21:59:54 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdlib.h>
 # include <sys/time.h>
 # include <pthread.h>
+# include <string.h>
 
 typedef struct s_coder
 {
@@ -94,6 +95,6 @@ void				refactor(t_node *table);
 void				cooldown(t_node *table);
 			
 void				assign_priority_score(t_coder *coder, t_data *data);
-unsigned long long	get_time_in_ms(void);
+unsigned long long get_time_in_ms(struct timeval tv);
 
 #endif

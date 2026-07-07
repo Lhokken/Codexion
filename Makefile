@@ -3,7 +3,7 @@ NAME = lib_codex.a
 CC = gcc
 CFLAGS = -g -Wall -Wextra -Werror -pthread
 
-SRCS = codex.c round_list.c inizialize_codex.c dongle_inizialize.c work_steps.c
+SRCS = codex.c round_list.c inizialize_codex.c dongle_inizialize.c work_steps.c codex_priority.c
 
 OBJS = $(SRCS:.c=.o)
 

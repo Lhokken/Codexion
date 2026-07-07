@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/07 18:06:13 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/07 22:13:32 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,15 +68,32 @@ void working_flow(t_node *table)
 	pthread_mutex_destroy(&print_lock);
 }
 
+void table_generator(t_node **table, t_data data, pthread_mutex_t *dongle_lock)
+{
+	int		i;
+	t_coder	coder;
+
+	i = 0;
+	while (i < data.number_of_coders)
+		{
+			coder = coder_gen(data, i);
+			pthread_mutex_init(&dongle_lock[i], NULL);
+			coder.right_dongle_lock = &dongle_lock[i];
+			coder.coder_id = i;
+			insert_tail(table, coder);
+			(*table)->coder.left_dongle = (*table)->prev->coder.right_dongle;
+			(*table)->coder.left_dongle_lock = (*table)->prev->coder.right_dongle_lock;
+			i++;
+		}
+		(*table)->next->coder.left_dongle = (*table)->coder.right_dongle;
+		(*table)->next->coder.left_dongle_lock = (*table)->coder.right_dongle_lock;
+}
+
 int	main(int argc, char **argv)
 {
 	t_data			data;
-	t_coder			coder;
 	t_node			*table;
 	pthread_mutex_t	*dongle_lock;
-	int				i;
-
-	i = 0;
 	table = NULL;
 	if (argc == 9)
 		{
@@ -84,22 +101,12 @@ int	main(int argc, char **argv)
 		data = data_define(data, argv);
 		
 		dongle_lock = malloc(sizeof(pthread_mutex_t) * data.number_of_coders);
-			while (i < data.number_of_coders)
-			{
-				coder = coder_gen(data, i);
-				pthread_mutex_init(&dongle_lock[i], NULL);
-				coder.right_dongle_lock = &dongle_lock[i];
-				coder.coder_id = i;
-				insert_tail(&table, coder);
-				table->coder.left_dongle = table->prev->coder.right_dongle;
-				table->coder.left_dongle_lock = table->prev->coder.right_dongle_lock;
-				i++;
-			}
-			table->next->coder.left_dongle = table->coder.right_dongle;
-			table->next->coder.left_dongle_lock = table->coder.right_dongle_lock;
-			working_flow(table);
-			node_clean(table, data.number_of_coders);
-			free(dongle_lock);
+		table_generator(&table, data, dongle_lock);
+
+
+		working_flow(table);
+		node_clean(table, data.number_of_coders);
+		free(dongle_lock);
 		}
 	else
 		printf("\nRequired exactly 8 arguments\n\n");
