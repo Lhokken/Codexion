@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/07 22:02:22 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/07 22:49:23 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,11 @@ void codex_print(t_node *table, char *message)
 
 void compile(t_node *table)
 {
-	struct timeval start;
-	struct timeval end;
+	struct timeval now;
 	int i;
 
-	gettimeofday(&start, NULL);
-	usleep(table->coder.time_to_compile);
+	i = 0;
+	gettimeofday(&now, NULL);
 	if (table->coder.coder_id % 2 == 0)
 	{
 		pthread_mutex_lock(table->coder.right_dongle_lock);
@@ -43,50 +42,49 @@ void compile(t_node *table)
 		pthread_mutex_lock(table->coder.right_dongle_lock);
 	}
 	while (table->coder.left_dongle[i])
-		table->coder.left_dongle[i++] += 1;
+	table->coder.left_dongle[i++] += 1;
 	i = 0;
 	while (table->coder.right_dongle[i])
-		table->coder.right_dongle[i++] += 1;
-	gettimeofday(&end, NULL);
-	table->coder.total_time = get_time_in_ms(end) - get_time_in_ms(start);
+	table->coder.right_dongle[i++] += 1;
+	usleep(table->coder.time_to_compile * 1000);
+	pthread_mutex_unlock(table->coder.left_dongle_lock);
+	pthread_mutex_unlock(table->coder.right_dongle_lock);
+	table->coder.total_time = get_time_in_ms(now) - table->coder.data.start_time;
 	codex_print(table, " is compiling");
 }
 
 void debug(t_node *table)
 {
-	struct timeval	start;
-	struct timeval	end;
+	struct timeval now;
 	
-	gettimeofday(&start, NULL);
-	usleep(table->coder.time_to_debug);
-	gettimeofday(&end, NULL);
-	table->coder.total_time = get_time_in_ms(end) - get_time_in_ms(start);
+	gettimeofday(&now, NULL);
+	usleep(table->coder.time_to_debug * 1000);
+
+	table->coder.total_time = get_time_in_ms(now) - table->coder.data.start_time;
 	codex_print(table, " is debugging");
 }
 
 void refactor(t_node *table)
 {
-	struct timeval	start;
-	struct timeval	end;
+	struct timeval now;
 
-	gettimeofday(&start, NULL);
-	usleep(table->coder.time_to_refactor);
-	gettimeofday(&end, NULL);
-	table->coder.total_time = get_time_in_ms(end) - get_time_in_ms(start);
+	gettimeofday(&now, NULL);
+	usleep(table->coder.time_to_refactor * 1000);
+
+	table->coder.total_time = get_time_in_ms(now) - table->coder.data.start_time;
 	codex_print(table, " is refactoring");
 	table->coder.number_of_compiles_required -= 1;
 }
 
 void cooldown(t_node *table)
 {
-	struct	timeval	start;
-	struct	timeval	end;
-	// long	time;
+	struct timeval now;
 
-	gettimeofday(&start, NULL);
-	usleep(table->coder.dongle_cooldown);
-	gettimeofday(&end, NULL);
-	table->coder.total_time = get_time_in_ms(end) - get_time_in_ms(start);
+
+	gettimeofday(&now, NULL);
+	usleep(table->coder.dongle_cooldown * 1000);
+
+	table->coder.total_time = get_time_in_ms(now) - table->coder.data.start_time;
 	codex_print(table, " dongle cooldown");
 }
 

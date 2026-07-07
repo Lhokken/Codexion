@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/28 17:07:38 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/07 21:59:54 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/07 22:32:35 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,20 @@
 # include <sys/time.h>
 # include <pthread.h>
 # include <string.h>
+
+typedef struct s_data
+{
+	int				number_of_coders;
+	int				time_to_burnout;
+	int				time_to_compile;
+	int				time_to_debug;
+	int				time_to_refactor;
+	int				number_of_compiles_required;
+	int				dongle_cooldown;
+	unsigned long	global_ticket_dispenser;
+	char			*scheduler;
+	unsigned long	start_time;
+}	t_data;
 
 typedef struct s_coder
 {
@@ -35,9 +49,10 @@ typedef struct s_coder
 	int				number_of_compiles_required;
 	int				dongle_cooldown;
 	unsigned long	priority_score;
-	long			total_time;
+	unsigned long	total_time;
 	struct timeval	start;
 	struct timeval	end;
+	t_data			data;
 }	t_coder;
 
 typedef struct s_dongle
@@ -55,19 +70,6 @@ typedef struct t_node
 	struct t_node	*next;
 	struct t_node	*prev;
 }	t_node;
-
-typedef struct s_data
-{
-	int				number_of_coders;
-	int				time_to_burnout;
-	int				time_to_compile;
-	int				time_to_debug;
-	int				time_to_refactor;
-	int				number_of_compiles_required;
-	int				dongle_cooldown;
-	unsigned long	global_ticket_dispenser;
-	char			*scheduler;
-}	t_data;
 
 // Alloca la memoria per un nuovo nodo e lo inizializza
 t_node				*create_node(t_coder new_coder);

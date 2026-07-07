@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/07 22:13:32 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/07 22:53:03 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,16 +94,17 @@ int	main(int argc, char **argv)
 	t_data			data;
 	t_node			*table;
 	pthread_mutex_t	*dongle_lock;
+	struct timeval 	now;
+
 	table = NULL;
 	if (argc == 9)
 		{
 		data = data_inizialize();
 		data = data_define(data, argv);
-		
 		dongle_lock = malloc(sizeof(pthread_mutex_t) * data.number_of_coders);
+		gettimeofday(&now, NULL);
+		data.start_time = get_time_in_ms(now);
 		table_generator(&table, data, dongle_lock);
-
-
 		working_flow(table);
 		node_clean(table, data.number_of_coders);
 		free(dongle_lock);
