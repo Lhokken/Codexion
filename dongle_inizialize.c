@@ -6,13 +6,12 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/29 14:47:48 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/07 22:15:36 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/07 23:03:44 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lib_codex.h"
 
-// Crea un dongle univoco.
 char	*dongle_create(void)
 {
 	char	*dongle;
@@ -24,7 +23,7 @@ char	*dongle_create(void)
 	i = 0;
 	if (!dongle)
 		return (NULL);
-	while(i < dongle_cap)
+	while (i < dongle_cap)
 	{
 		dongle[i] = 'a';
 		i++;

@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/28 17:07:38 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/07 22:32:35 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/07 23:03:19 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,6 @@ void				compile(t_node *table);
 void				debug(t_node *table);
 void				refactor(t_node *table);
 void				cooldown(t_node *table);
-			
-void				assign_priority_score(t_coder *coder, t_data *data);
-unsigned long long get_time_in_ms(struct timeval tv);
+unsigned long long	get_time(struct timeval tv);
 
 #endif

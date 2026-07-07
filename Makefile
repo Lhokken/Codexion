@@ -11,7 +11,7 @@ TEST_SRC = codex.c
 
 TEST_NAME = test
 
-TEST_DATA = 200 20 20 50 60 10 50 fifo
+TEST_DATA = 50 20 20 50 60 10 50 fifo
 
 VALG = valgrind -s --leak-check=full --show-leak-kinds=all --track-origins=yes -s
 

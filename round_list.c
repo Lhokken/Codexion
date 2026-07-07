@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/29 14:47:48 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/07 17:50:48 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/07 23:02:50 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,7 @@ void	print_list(t_node *tail)
 		printf("coder: %d left: %p right: %p\n",
 			id, tail->coder.left_dongle, tail->coder.right_dongle);
 		if (tail == start)
-		{
-			break ;	
-		}
+			break ;
 	}
 	printf("\n\n");
 }
