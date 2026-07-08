@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/28 17:07:38 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/07 23:03:19 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/08 16:30:27 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,5 +96,6 @@ void				debug(t_node *table);
 void				refactor(t_node *table);
 void				cooldown(t_node *table);
 unsigned long long	get_time(struct timeval tv);
+void				validate(char **argv);
 
 #endif

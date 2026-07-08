@@ -3,15 +3,15 @@ NAME = lib_codex.a
 CC = gcc
 CFLAGS = -g -Wall -Wextra -Werror -pthread
 
-SRCS = codex.c round_list.c inizialize_codex.c dongle_inizialize.c work_steps.c codex_priority.c
+SRCS = codex.c round_list.c inizialize_codex.c dongle_inizialize.c work_steps.c codex_priority.c codex_error.c
 
 OBJS = $(SRCS:.c=.o)
 
 TEST_SRC = codex.c
 
-TEST_NAME = test
+TEST_NAME = codexion
 
-TEST_DATA = 50 20 20 50 60 10 50 fifo
+TEST_DATA = 49 20 20 50 60 10 50 fifo
 
 VALG = valgrind -s --leak-check=full --show-leak-kinds=all --track-origins=yes -s
 
