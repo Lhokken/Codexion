@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/07 23:13:55 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/08 17:56:42 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,30 +27,22 @@ void	codex_print(t_node *table, char *message)
 void	compile(t_node *table)
 {
 	struct timeval	now;
-	int				i;
 
-	i = 0;
+	compile_dongle_lock(table);
 	gettimeofday(&now, NULL);
-	if (table->coder.coder_id % 2 == 0)
-	{
-		pthread_mutex_lock(table->coder.right_dongle_lock);
-		pthread_mutex_lock(table->coder.left_dongle_lock);
-	}
-	else
-	{
-		pthread_mutex_lock(table->coder.left_dongle_lock);
-		pthread_mutex_lock(table->coder.right_dongle_lock);
-	}
-	while (table->coder.left_dongle[i])
-		table->coder.left_dongle[i++] += 1;
-	i = 0;
-	while (table->coder.right_dongle[i])
-		table->coder.right_dongle[i++] += 1;
+	table->coder.total_time = get_time(now) - table->coder.data.start_time;
+	codex_print(table, " is compiling");
+	table->coder.right_dongle->available_at = (
+		get_time(now) + table->coder.data.time_to_compile +\
+		table->coder.data.dongle_cooldown
+	);
+	table->coder.left_dongle->available_at = (
+		get_time(now) + table->coder.data.time_to_compile +\
+		table->coder.data.dongle_cooldown
+	);
 	usleep(table->coder.time_to_compile * 1000);
 	pthread_mutex_unlock(table->coder.left_dongle_lock);
 	pthread_mutex_unlock(table->coder.right_dongle_lock);
-	table->coder.total_time = get_time(now) - table->coder.data.start_time;
-	codex_print(table, " is compiling");
 }
 
 void	debug(t_node *table)

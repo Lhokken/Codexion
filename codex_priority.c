@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/07 23:06:09 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/08 18:27:56 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,36 @@ unsigned long long	get_time(struct timeval tv)
 {
 	return (((unsigned long long)tv.tv_sec * 1000) + \
 		((unsigned long long)tv.tv_usec / 1000));
+}
+
+int	cooldown_check(struct timeval now, unsigned long long available)
+{
+	if (available > get_time(now))
+		return (available - get_time(now));
+	else
+		return 0;
+}
+
+void	compile_dongle_lock(t_node *table)
+{
+	struct timeval	now;
+
+	if (table->coder.coder_id % 2 == 0)
+	{
+		pthread_mutex_lock(table->coder.right_dongle_lock);
+		gettimeofday(&now, NULL);
+		usleep(cooldown_check(now, table->coder.right_dongle->available_at) * 1000);
+		pthread_mutex_lock(table->coder.left_dongle_lock);
+		gettimeofday(&now, NULL);
+		usleep(cooldown_check(now, table->coder.left_dongle->available_at) * 1000);
+	}
+	else
+	{
+		pthread_mutex_lock(table->coder.left_dongle_lock);
+		gettimeofday(&now, NULL);
+		usleep(cooldown_check(now, table->coder.left_dongle->available_at) * 1000);
+		pthread_mutex_lock(table->coder.right_dongle_lock);
+		gettimeofday(&now, NULL);
+		usleep(cooldown_check(now, table->coder.right_dongle->available_at) * 1000);
+	}
 }

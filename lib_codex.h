@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/28 17:07:38 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/08 16:30:27 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/08 18:25:07 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,44 +23,45 @@
 
 typedef struct s_data
 {
-	int				number_of_coders;
-	int				time_to_burnout;
-	int				time_to_compile;
-	int				time_to_debug;
-	int				time_to_refactor;
-	int				number_of_compiles_required;
-	int				dongle_cooldown;
-	unsigned long	global_ticket_dispenser;
-	char			*scheduler;
-	unsigned long	start_time;
+	int					number_of_coders;
+	int					time_to_burnout;
+	int					time_to_compile;
+	int					time_to_debug;
+	int					time_to_refactor;
+	int					number_of_compiles_required;
+	int					dongle_cooldown;
+	unsigned long long	global_ticket_dispenser;
+	char				*scheduler;
+	unsigned long long	start_time;
 }	t_data;
-
-typedef struct s_coder
-{
-	int				coder_id;
-	char			*right_dongle;
-	char			*left_dongle;
-	pthread_mutex_t	*right_dongle_lock;
-	pthread_mutex_t	*left_dongle_lock;
-	int				time_to_burnout;
-	int				time_to_compile;
-	int				time_to_debug;
-	int				time_to_refactor;
-	int				number_of_compiles_required;
-	int				dongle_cooldown;
-	unsigned long	priority_score;
-	unsigned long	total_time;
-	struct timeval	start;
-	struct timeval	end;
-	t_data			data;
-}	t_coder;
 
 typedef struct s_dongle
 {
-	int		dongle_id;
-	int		dongle_cooldown;
-	char	scheduler;
+	int					dongle_id;
+	int					dongle_cooldown;
+	unsigned long long	available_at;
+	char				*scheduler;
 }	t_dongle;
+
+typedef struct s_coder
+{
+	int					coder_id;
+	t_dongle			*right_dongle;
+	t_dongle			*left_dongle;
+	pthread_mutex_t		*right_dongle_lock;
+	pthread_mutex_t		*left_dongle_lock;
+	int					time_to_burnout;
+	int					time_to_compile;
+	int					time_to_debug;
+	int					time_to_refactor;
+	int					number_of_compiles_required;
+	int					dongle_cooldown;
+	unsigned long long	priority_score;
+	unsigned long long	total_time;
+	struct timeval		start;
+	struct timeval		end;
+	t_data				data;
+}	t_coder;
 
 typedef struct t_node
 {
@@ -89,7 +90,7 @@ t_data				data_inizialize(void);
 t_data				data_define(t_data data, char **argv);
 void				data_print(t_data data);
 t_coder				coder_gen(t_data data, int id);
-char				*dongle_create(void);
+t_dongle			*dongle_create(t_data data);
 
 void				compile(t_node *table);
 void				debug(t_node *table);
@@ -97,5 +98,6 @@ void				refactor(t_node *table);
 void				cooldown(t_node *table);
 unsigned long long	get_time(struct timeval tv);
 void				validate(char **argv);
+void				compile_dongle_lock(t_node *table);
 
 #endif
