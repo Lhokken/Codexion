@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/28 17:07:38 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/09 17:43:06 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/09 18:35:42 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_data
 	char				*scheduler;
 	unsigned long long	start_time;
 	pthread_mutex_t		*med_lock;
+	pthread_t			id_med;
 }	t_data;
 
 typedef struct s_dongle

@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/09 17:45:28 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/09 19:00:47 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,9 @@ void	working_flow(t_node *table)
 			break ;
 		table = table->next;
 	}
-	end = table;
+	pthread_create(&table->coder.data.id_med, NULL, med_coders, table);
 	table = table->next;
+	pthread_join(table->coder.data.id_med, NULL);
 	while (1)
 	{
 		pthread_join(table->id_thread, NULL);

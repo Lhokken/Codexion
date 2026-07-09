@@ -11,7 +11,7 @@ TEST_SRC = codex.c
 
 TEST_NAME = codexion
 
-TEST_DATA = 23 90 80 50 60 20 90 fifo
+TEST_DATA = 11 90 80 50 60 20 80 fifo
 
 VALG = valgrind -s --leak-check=full --show-leak-kinds=all --track-origins=yes -s
 

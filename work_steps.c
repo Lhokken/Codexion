@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/08 19:38:01 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/09 18:57:03 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,9 @@ void	compile(t_node *table)
 	gettimeofday(&now, NULL);
 	table->coder.total_time = get_time(now) - table->coder.data.start_time;
 	codex_print(table, " is compiling");
+	pthread_mutex_lock(table->coder.data.med_lock);
 	table->coder.last_compile = get_time(now);
+	pthread_mutex_unlock(table->coder.data.med_lock);
 	table->coder.right_dongle->available_at = (
 		get_time(now) + table->coder.data.time_to_compile +\
 		table->coder.data.dongle_cooldown
