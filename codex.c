@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/09 19:00:47 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/09 22:26:22 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	working_flow(t_node *table)
 {
 	t_node			*end;
 	pthread_mutex_t	print_lock;
+	pthread_t		med_thread;
 
 	end = table;
 	table = table->next;
@@ -43,9 +44,9 @@ void	working_flow(t_node *table)
 			break ;
 		table = table->next;
 	}
-	pthread_create(&table->coder.data.id_med, NULL, med_coders, table);
+	pthread_create(&med_thread, NULL, med_coders, table);
 	table = table->next;
-	pthread_join(table->coder.data.id_med, NULL);
+	pthread_join(med_thread, NULL);
 	while (1)
 	{
 		pthread_join(table->id_thread, NULL);
@@ -101,6 +102,8 @@ int	main(int argc, char **argv)
 		working_flow(table);
 		node_clean(table, data.number_of_coders);
 		free(dongle_lock);
+		pthread_mutex_destroy(data.med_lock);
+		free(data.med_lock);
 	}
 	else
 		printf("\nRequired exactly 8 arguments\n\n");
