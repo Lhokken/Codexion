@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/28 17:07:38 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/08 18:25:07 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/09 17:43:06 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <sys/time.h>
 # include <pthread.h>
 # include <string.h>
+# include <stdbool.h>
 
 typedef struct s_data
 {
@@ -31,8 +32,10 @@ typedef struct s_data
 	int					number_of_compiles_required;
 	int					dongle_cooldown;
 	unsigned long long	global_ticket_dispenser;
+	bool 				coder_burnout;
 	char				*scheduler;
 	unsigned long long	start_time;
+	pthread_mutex_t		*med_lock;
 }	t_data;
 
 typedef struct s_dongle
@@ -58,6 +61,7 @@ typedef struct s_coder
 	int					dongle_cooldown;
 	unsigned long long	priority_score;
 	unsigned long long	total_time;
+	unsigned long long	last_compile;
 	struct timeval		start;
 	struct timeval		end;
 	t_data				data;
@@ -91,7 +95,12 @@ t_data				data_define(t_data data, char **argv);
 void				data_print(t_data data);
 t_coder				coder_gen(t_data data, int id);
 t_dongle			*dongle_create(t_data data);
-
+void				table_generator(
+					t_node **table,
+					t_data data,
+					pthread_mutex_t *dongle_lock
+					);
+void				codex_print(t_node *table, char *message);
 void				compile(t_node *table);
 void				debug(t_node *table);
 void				refactor(t_node *table);
@@ -99,5 +108,7 @@ void				cooldown(t_node *table);
 unsigned long long	get_time(struct timeval tv);
 void				validate(char **argv);
 void				compile_dongle_lock(t_node *table);
+void				*med_coders(void *arg);
+
 
 #endif

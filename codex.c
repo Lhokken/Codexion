@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/08 16:34:33 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/09 17:45:28 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,31 +55,29 @@ void	working_flow(t_node *table)
 	pthread_mutex_destroy(&print_lock);
 }
 
-void	table_generator(
-	t_node **table,
-	t_data data,
-	pthread_mutex_t *dongle_lock
-)
+void	*med_coders(void *arg)
 {
-	int		i;
-	t_coder	coder;
+	t_node			*table;
+	struct timeval	now;
 
-	i = 0;
-	while (i < data.number_of_coders)
+	table = (t_node *)arg;
+	table = table->next;
+	while (1)
 	{
-		coder = coder_gen(data, i);
-		pthread_mutex_init(&dongle_lock[i], NULL);
-		coder.right_dongle_lock = &dongle_lock[i];
-		coder.coder_id = i;
-		insert_tail(table, coder);
-		(*table)->coder.left_dongle = (*table)->prev->coder.right_dongle;
-		(*table)->coder.left_dongle_lock = \
-			(*table)->prev->coder.right_dongle_lock;
-		i++;
+		gettimeofday(&now, NULL);
+		pthread_mutex_lock(table->coder.data.med_lock);
+		if ((int)(get_time(now) - table->coder.last_compile) > table->coder.data.time_to_burnout)
+		{
+			table->coder.data.coder_burnout = true;
+			pthread_mutex_unlock(table->coder.data.med_lock);
+			codex_print(table, " is burnout");
+			break ;
+		}
+		pthread_mutex_unlock(table->coder.data.med_lock);
+		usleep(1000);
+		table = table->next;
 	}
-	(*table)->next->coder.left_dongle = (*table)->coder.right_dongle;
-	(*table)->next->coder.left_dongle_lock = \
-		(*table)->coder.right_dongle_lock;
+	return NULL;
 }
 
 int	main(int argc, char **argv)

@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/08 16:35:58 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/09 17:21:52 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,10 @@ void	validate(char **argv)
 		}
 		i++;
 	}
-	if ((strcmp(argv[i], "fifo") != 0) & (strcmp(argv[i], "edf") != 0))
+	if ((strcmp(argv[i], "fifo") != 0) && (strcmp(argv[i], "edf") != 0))
 	{
 		printf("Scheduler must be 'fifo' or 'edf'\n");
 		exit(0);
 	}
 }
+

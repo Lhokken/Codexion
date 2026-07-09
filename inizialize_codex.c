@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/01 18:51:09 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/09 17:48:25 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,9 @@ t_data	data_define(t_data data, char **argv)
 	data.number_of_compiles_required = atoi(argv[6]);
 	data.dongle_cooldown = atoi(argv[7]);
 	data.scheduler = argv[8];
+	data.coder_burnout = false;
+	data.med_lock = malloc(sizeof(pthread_mutex_t));
+	pthread_mutex_init(data.med_lock, NULL);
 	return (data);
 }
 
@@ -52,4 +55,31 @@ void	data_print(t_data data)
 	printf("dongle_cooldown %d\n", data.dongle_cooldown);
 	printf("scheduler %s\n", data.scheduler);
 	printf("\n");
+}
+
+void	table_generator(
+	t_node **table,
+	t_data data,
+	pthread_mutex_t *dongle_lock
+)
+{
+	int		i;
+	t_coder	coder;
+
+	i = 0;
+	while (i < data.number_of_coders)
+	{
+		coder = coder_gen(data, i);
+		pthread_mutex_init(&dongle_lock[i], NULL);
+		coder.right_dongle_lock = &dongle_lock[i];
+		coder.coder_id = i;
+		insert_tail(table, coder);
+		(*table)->coder.left_dongle = (*table)->prev->coder.right_dongle;
+		(*table)->coder.left_dongle_lock = \
+			(*table)->prev->coder.right_dongle_lock;
+		i++;
+	}
+	(*table)->next->coder.left_dongle = (*table)->coder.right_dongle;
+	(*table)->next->coder.left_dongle_lock = \
+		(*table)->coder.right_dongle_lock;
 }
