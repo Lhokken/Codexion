@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/29 14:47:48 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/10 14:21:19 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/10 17:31:17 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_dongle	*dongle_create(t_data *data)
 	t_dongle	*dongle;
 
 	dongle = malloc(sizeof(t_dongle));
-	dongle->available_at = 0;
+	dongle->awake = 0;
 	dongle->dongle_cooldown = data->dongle_cooldown;
 	dongle->scheduler = data->scheduler;
 	return (dongle);
@@ -38,6 +38,6 @@ t_coder	coder_gen(t_data *data, int id)
 	coder.dongle_cooldown = data->dongle_cooldown;
 	coder.last_compile = data->start_time;
 	coder.total_time = 0;
-	coder.data = (*data);
+	coder.data = data;
 	return (coder);
 }

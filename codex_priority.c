@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/10 14:03:45 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/10 17:32:06 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	cooldown_check(struct timeval now, unsigned long long available)
 	if (available > get_time(now))
 		return (available - get_time(now));
 	else
-		return 0;
+		return (0);
 }
 
 void	compile_dongle_lock(t_node *table)
@@ -50,22 +50,38 @@ void	compile_dongle_lock(t_node *table)
 		pthread_mutex_lock(table->coder.right_dongle_lock);
 		gettimeofday(&now, NULL);
 		codex_print(table, " has taken a dongle");
-		usleep(cooldown_check(now, table->coder.right_dongle->available_at) * 100);
+		usleep(cooldown_check(now, table->coder.right_dongle->awake) * 1000);
 		pthread_mutex_lock(table->coder.left_dongle_lock);
 		gettimeofday(&now, NULL);
 		codex_print(table, " has taken a dongle");
-		usleep(cooldown_check(now, table->coder.left_dongle->available_at) * 100);
+		usleep(cooldown_check(now, table->coder.left_dongle->awake) * 1000);
 	}
 	else
 	{
 		pthread_mutex_lock(table->coder.left_dongle_lock);
 		gettimeofday(&now, NULL);
 		codex_print(table, " has taken a dongle");
-		usleep(cooldown_check(now, table->coder.left_dongle->available_at) * 100);
+		usleep(cooldown_check(now, table->coder.left_dongle->awake) * 1000);
 		pthread_mutex_lock(table->coder.right_dongle_lock);
 		gettimeofday(&now, NULL);
 		codex_print(table, " has taken a dongle");
-		usleep(cooldown_check(now, table->coder.right_dongle->available_at) * 100);
+		usleep(cooldown_check(now, table->coder.right_dongle->awake) * 1000);
 	}
 }
 
+bool	time_usleep(int time_left, t_node *table)
+{
+	while (time_left > 0)
+	{
+		usleep(1000);
+		time_left -= 1;
+		pthread_mutex_lock(table->coder.data->med_lock);
+		if (table->coder.data->coder_burnout)
+		{
+			pthread_mutex_unlock(table->coder.data->med_lock);
+			return (true);
+		}
+		pthread_mutex_unlock(table->coder.data->med_lock);
+	}
+	return (false);
+}

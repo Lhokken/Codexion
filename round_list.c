@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/29 14:47:48 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/07 23:02:50 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/10 17:10:18 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,13 +91,13 @@ void	print_list(t_node *tail)
 }
 
 // Libera la memoria dai nodi
-void	node_clean(t_node *tail, int num_cod)
+void	node_clean(t_node *tail, t_data *data, pthread_mutex_t	*dongle_lock)
 {
 	t_node	*temp;
 	int		i;
 
 	i = 0;
-	while (i < num_cod)
+	while (i < data->number_of_coders)
 	{
 		temp = tail;
 		tail = (tail)->next;
@@ -105,4 +105,11 @@ void	node_clean(t_node *tail, int num_cod)
 		free(temp);
 		i++;
 	}
+	i = 0;
+	while (i < data->number_of_coders)
+	{
+		pthread_mutex_destroy(&dongle_lock[i]);
+		i++;
+	}
+	free(dongle_lock);
 }

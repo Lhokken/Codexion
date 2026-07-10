@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/28 17:07:38 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/10 14:59:08 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/10 17:31:17 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef struct s_data
 	int					number_of_compiles_required;
 	int					dongle_cooldown;
 	unsigned long long	global_ticket_dispenser;
-	bool 				coder_burnout;
+	bool				coder_burnout;
 	char				*scheduler;
 	unsigned long long	start_time;
 	pthread_mutex_t		*med_lock;
@@ -43,7 +43,7 @@ typedef struct s_dongle
 {
 	int					dongle_id;
 	int					dongle_cooldown;
-	unsigned long long	available_at;
+	unsigned long long	awake;
 	char				*scheduler;
 }	t_dongle;
 
@@ -65,7 +65,7 @@ typedef struct s_coder
 	unsigned long long	last_compile;
 	struct timeval		start;
 	struct timeval		end;
-	t_data				data;
+	t_data				*data;
 }	t_coder;
 
 typedef struct t_node
@@ -77,30 +77,25 @@ typedef struct t_node
 	struct t_node	*prev;
 }	t_node;
 
-// Alloca la memoria per un nuovo nodo e lo inizializza
 t_node				*create_node(t_coder new_coder);
-
-// Inserisce un nodo all'inizio (subito dopo la tail)
 void				insert_head(t_node **tail, t_coder new_coder);
-
-// Inserisce un nodo alla fine (diventa la nuova tail)
 void				insert_tail(t_node **tail, t_coder new_coder);
-
-// Percorre la lista e stampa i valori (attento alla condizione di uscita!)
 void				print_list(t_node *tail);
-// Libera la memoria dei nodi
-void				node_clean(t_node *tail, int num_cod);
-
+void				node_clean(
+						t_node *tail,
+						t_data *data,
+						pthread_mutex_t	*dongle_lock
+						);
 t_data				*data_inizialize(t_data *data);
 t_data				*data_define(t_data *data, char **argv);
 void				data_print(t_data *data);
 t_coder				coder_gen(t_data *data, int id);
 t_dongle			*dongle_create(t_data *data);
 void				table_generator(
-					t_node **table,
-					t_data *data,
-					pthread_mutex_t *dongle_lock
-					);
+						t_node **table,
+						t_data *data,
+						pthread_mutex_t *dongle_lock
+						);
 void				codex_print(t_node *table, char *message);
 void				compile(t_node *table);
 void				debug(t_node *table);
@@ -110,6 +105,6 @@ unsigned long long	get_time(struct timeval tv);
 void				validate(char **argv);
 void				compile_dongle_lock(t_node *table);
 void				*med_coders(void *arg);
-
+bool				time_usleep(int time_left, t_node *table);
 
 #endif
