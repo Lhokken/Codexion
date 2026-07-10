@@ -11,7 +11,9 @@ TEST_SRC = codex.c
 
 TEST_NAME = codexion
 
-TEST_DATA = 11 20 80 50 60 20 80 fifo
+TEST_DATA = 11 100 200 200 200 10 50 fifo
+
+# N cod-burn-com-deb-ref-N com-cool
 
 VALG = valgrind -s --leak-check=full --show-leak-kinds=all --track-origins=yes -s
 
