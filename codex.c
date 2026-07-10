@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/10 14:58:19 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/10 15:06:46 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ int	main(int argc, char **argv)
 		free(dongle_lock);
 		pthread_mutex_destroy(data->med_lock);
 		free(data->med_lock);
+		free(data);
 	}
 	else
 		printf("\nRequired exactly 8 arguments\n\n");
