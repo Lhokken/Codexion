@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/28 17:07:38 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/10 14:11:36 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/10 14:59:08 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,14 +91,14 @@ void				print_list(t_node *tail);
 // Libera la memoria dei nodi
 void				node_clean(t_node *tail, int num_cod);
 
-t_data				data_inizialize(void);
-t_data				data_define(t_data data, char **argv);
-void				data_print(t_data data);
-t_coder				coder_gen(t_data data, int id);
-t_dongle			*dongle_create(t_data data);
+t_data				*data_inizialize(t_data *data);
+t_data				*data_define(t_data *data, char **argv);
+void				data_print(t_data *data);
+t_coder				coder_gen(t_data *data, int id);
+t_dongle			*dongle_create(t_data *data);
 void				table_generator(
 					t_node **table,
-					t_data data,
+					t_data *data,
 					pthread_mutex_t *dongle_lock
 					);
 void				codex_print(t_node *table, char *message);

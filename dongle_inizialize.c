@@ -6,38 +6,38 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/29 14:47:48 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/08 19:34:43 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/10 14:21:19 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lib_codex.h"
 
-t_dongle	*dongle_create(t_data data)
+t_dongle	*dongle_create(t_data *data)
 {
 	t_dongle	*dongle;
 
 	dongle = malloc(sizeof(t_dongle));
 	dongle->available_at = 0;
-	dongle->dongle_cooldown = data.dongle_cooldown;
-	dongle->scheduler = data.scheduler;
+	dongle->dongle_cooldown = data->dongle_cooldown;
+	dongle->scheduler = data->scheduler;
 	return (dongle);
 }
 
-t_coder	coder_gen(t_data data, int id)
+t_coder	coder_gen(t_data *data, int id)
 {
 	t_coder	coder;
 
 	coder.coder_id = id;
 	coder.right_dongle = dongle_create(data);
 	coder.right_dongle->dongle_id = id;
-	coder.number_of_compiles_required = data.number_of_compiles_required;
-	coder.time_to_burnout = data.time_to_burnout;
-	coder.time_to_compile = data.time_to_compile;
-	coder.time_to_refactor = data.time_to_refactor;
-	coder.time_to_debug = data.time_to_debug;
-	coder.dongle_cooldown = data.dongle_cooldown;
-	coder.last_compile = data.start_time;
+	coder.number_of_compiles_required = data->number_of_compiles_required;
+	coder.time_to_burnout = data->time_to_burnout;
+	coder.time_to_compile = data->time_to_compile;
+	coder.time_to_refactor = data->time_to_refactor;
+	coder.time_to_debug = data->time_to_debug;
+	coder.dongle_cooldown = data->dongle_cooldown;
+	coder.last_compile = data->start_time;
 	coder.total_time = 0;
-	coder.data = data;
+	coder.data = (*data);
 	return (coder);
 }

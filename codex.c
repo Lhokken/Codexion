@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/10 14:14:14 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/10 14:58:19 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	*med_coders(void *arg)
 
 int	main(int argc, char **argv)
 {
-	t_data			data;
+	t_data			*data;
 	t_node			*table;
 	pthread_mutex_t	*dongle_lock;
 	struct timeval	now;
@@ -95,17 +95,18 @@ int	main(int argc, char **argv)
 	if (argc == 9)
 	{
 		validate(argv);
-		data = data_inizialize();
+		data = malloc(sizeof(t_data));
+		data = data_inizialize(data);
 		data = data_define(data, argv);
-		dongle_lock = malloc(sizeof(pthread_mutex_t) * data.number_of_coders);
+		dongle_lock = malloc(sizeof(pthread_mutex_t) * data->number_of_coders);
 		gettimeofday(&now, NULL);
-		data.start_time = get_time(now);
+		data->start_time = get_time(now);
 		table_generator(&table, data, dongle_lock);
 		working_flow(table);
-		node_clean(table, data.number_of_coders);
+		node_clean(table, data->number_of_coders);
 		free(dongle_lock);
-		pthread_mutex_destroy(data.med_lock);
-		free(data.med_lock);
+		pthread_mutex_destroy(data->med_lock);
+		free(data->med_lock);
 	}
 	else
 		printf("\nRequired exactly 8 arguments\n\n");
