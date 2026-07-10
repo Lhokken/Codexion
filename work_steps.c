@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/10 19:09:17 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/10 19:11:21 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	codex_print(t_node *table, char *message)
 {
-	long	time;
-	int		id;
-	struct	timeval	now;
+	long			time;
+	int				id;
+	struct timeval	now;
 
 	gettimeofday(&now, NULL);
 	pthread_mutex_lock(table->print_lock);
@@ -48,7 +48,7 @@ static void	coder_awake_set(t_node *table, struct timeval now)
 
 void	compile(t_node *table)
 {
-	struct	timeval	now;
+	struct timeval	now;
 
 	pthread_mutex_lock(table->coder.data->med_lock);
 	if (table->coder.data->coder_burnout)
