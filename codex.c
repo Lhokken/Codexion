@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/10 18:25:44 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/10 18:27:04 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,6 @@ void	working_flow(t_node *table)
 	table = table->next;
 	pthread_mutex_init(&print_lock, NULL);
 	print_lock_init(table, end, &print_lock);
-	// while (1)
-	// {
-	// 	table->print_lock = &print_lock;
-	// 	pthread_create(&table->id_thread, NULL, working_steps, table);
-	// 	if (table == end)
-	// 		break ;
-	// 	table = table->next;
-	// }
 	pthread_create(&med_thread, NULL, med_coders, table);
 	pthread_join(med_thread, NULL);
 	while (1)
