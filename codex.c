@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/09 22:26:22 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/10 14:14:14 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	*working_steps(void *tabl)
 		compile(table);
 		debug(table);
 		refactor(table);
-		cooldown(table);
 	}
 	return (NULL);
 }
@@ -33,6 +32,8 @@ void	working_flow(t_node *table)
 	pthread_mutex_t	print_lock;
 	pthread_t		med_thread;
 
+	if (table->coder.data.coder_burnout == true)
+		return;
 	end = table;
 	table = table->next;
 	pthread_mutex_init(&print_lock, NULL);
@@ -68,6 +69,7 @@ void	*med_coders(void *arg)
 	{
 		gettimeofday(&now, NULL);
 		pthread_mutex_lock(table->coder.data.med_lock);
+		// printf("last_comp: %i time_burn: %i\n", (int)(get_time(now) - table->coder.last_compile), table->coder.data.time_to_burnout);
 		if ((int)(get_time(now) - table->coder.last_compile) > table->coder.data.time_to_burnout)
 		{
 			table->coder.data.coder_burnout = true;
@@ -76,7 +78,7 @@ void	*med_coders(void *arg)
 			break ;
 		}
 		pthread_mutex_unlock(table->coder.data.med_lock);
-		usleep(1000);
+		usleep(100);
 		table = table->next;
 	}
 	return NULL;

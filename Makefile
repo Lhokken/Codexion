@@ -11,7 +11,7 @@ TEST_SRC = codex.c
 
 TEST_NAME = codexion
 
-TEST_DATA = 11 100 200 200 200 10 50 fifo
+TEST_DATA = 22 100 200 200 200 10 200 fifo
 
 # N cod-burn-com-deb-ref-N com-cool
 

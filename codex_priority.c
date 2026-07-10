@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/09 17:22:19 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/10 14:03:45 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,19 +49,23 @@ void	compile_dongle_lock(t_node *table)
 	{
 		pthread_mutex_lock(table->coder.right_dongle_lock);
 		gettimeofday(&now, NULL);
-		usleep(cooldown_check(now, table->coder.right_dongle->available_at) * 1000);
+		codex_print(table, " has taken a dongle");
+		usleep(cooldown_check(now, table->coder.right_dongle->available_at) * 100);
 		pthread_mutex_lock(table->coder.left_dongle_lock);
 		gettimeofday(&now, NULL);
-		usleep(cooldown_check(now, table->coder.left_dongle->available_at) * 1000);
+		codex_print(table, " has taken a dongle");
+		usleep(cooldown_check(now, table->coder.left_dongle->available_at) * 100);
 	}
 	else
 	{
 		pthread_mutex_lock(table->coder.left_dongle_lock);
 		gettimeofday(&now, NULL);
-		usleep(cooldown_check(now, table->coder.left_dongle->available_at) * 1000);
+		codex_print(table, " has taken a dongle");
+		usleep(cooldown_check(now, table->coder.left_dongle->available_at) * 100);
 		pthread_mutex_lock(table->coder.right_dongle_lock);
 		gettimeofday(&now, NULL);
-		usleep(cooldown_check(now, table->coder.right_dongle->available_at) * 1000);
+		codex_print(table, " has taken a dongle");
+		usleep(cooldown_check(now, table->coder.right_dongle->available_at) * 100);
 	}
 }
 

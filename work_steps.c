@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/10 11:33:56 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/10 14:14:04 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,16 @@ void	codex_print(t_node *table, char *message)
 void	compile(t_node *table)
 {
 	struct timeval	now;
+	bool			dead;
 
+	pthread_mutex_lock(table->coder.data.med_lock);
+	dead = table->coder.data.coder_burnout;
+	pthread_mutex_unlock(table->coder.data.med_lock);
+	if (dead)
+	{
+		table->coder.number_of_compiles_required = 0;
+		return;
+	}
 	compile_dongle_lock(table);
 	gettimeofday(&now, NULL);
 	codex_print(table, " is compiling");
@@ -53,7 +62,16 @@ void	compile(t_node *table)
 void	debug(t_node *table)
 {
 	struct timeval	now;
+	bool			dead;
 
+	pthread_mutex_lock(table->coder.data.med_lock);
+	dead = table->coder.data.coder_burnout;
+	pthread_mutex_unlock(table->coder.data.med_lock);
+	if (dead)
+	{
+		table->coder.number_of_compiles_required = 0;
+		return;
+	}
 	gettimeofday(&now, NULL);
 	usleep(table->coder.time_to_debug * 1000);
 	table->coder.total_time = get_time(now) - table->coder.data.start_time;
@@ -63,7 +81,16 @@ void	debug(t_node *table)
 void	refactor(t_node *table)
 {
 	struct timeval	now;
+	bool			dead;
 
+	pthread_mutex_lock(table->coder.data.med_lock);
+	dead = table->coder.data.coder_burnout;
+	pthread_mutex_unlock(table->coder.data.med_lock);
+	if (dead)
+	{
+		table->coder.number_of_compiles_required = 0;
+		return;
+	}
 	gettimeofday(&now, NULL);
 	usleep(table->coder.time_to_refactor * 1000);
 	table->coder.total_time = get_time(now) - table->coder.data.start_time;
@@ -71,12 +98,14 @@ void	refactor(t_node *table)
 	table->coder.number_of_compiles_required -= 1;
 }
 
-void	cooldown(t_node *table)
-{
-	struct timeval	now;
+// void	cooldown(t_node *table)
+// {
+// 	struct timeval	now;
 
-	gettimeofday(&now, NULL);
-	usleep(table->coder.dongle_cooldown * 1000);
-	table->coder.total_time = get_time(now) - table->coder.data.start_time;
-	codex_print(table, " dongle cooldown");
-}
+// 	if (table->coder.data.coder_burnout == true)
+// 		return;
+// 	gettimeofday(&now, NULL);
+// 	usleep(table->coder.dongle_cooldown * 100);
+// 	table->coder.total_time = get_time(now) - table->coder.data.start_time;
+// 	codex_print(table, " dongle cooldown");
+// }
