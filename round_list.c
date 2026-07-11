@@ -6,13 +6,12 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/29 14:47:48 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/10 17:10:18 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/11 11:27:07 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lib_codex.h"
 
-// Alloca la memoria per un nuovo nodo e lo inizializza
 t_node	*create_node(t_coder new_coder)
 {
 	t_node	*coder_place;
@@ -26,7 +25,6 @@ t_node	*create_node(t_coder new_coder)
 	return (coder_place);
 }
 
-// Inserisce un nodo all'inizio (subito dopo la tail)
 void	insert_head(t_node **tail, t_coder new_coder)
 {
 	t_node	*new_node;
@@ -45,7 +43,6 @@ void	insert_head(t_node **tail, t_coder new_coder)
 	}
 }
 
-// Inserisce un nodo alla fine (diventa la nuova tail)
 void	insert_tail(t_node **tail, t_coder new_coder)
 {
 	t_node	*new_node;
@@ -69,7 +66,6 @@ void	insert_tail(t_node **tail, t_coder new_coder)
 	}
 }
 
-// Percorre la lista e stampa i valori (attento alla condizione di uscita!)
 void	print_list(t_node *tail)
 {
 	t_node	*start;
@@ -90,7 +86,6 @@ void	print_list(t_node *tail)
 	printf("\n\n");
 }
 
-// Libera la memoria dai nodi
 void	node_clean(t_node *tail, t_data *data, pthread_mutex_t	*dongle_lock)
 {
 	t_node	*temp;

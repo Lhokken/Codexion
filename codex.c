@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/10 18:27:04 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/11 11:52:54 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	*working_steps(void *tabl)
 		}
 		pthread_mutex_unlock(table->coder.data->med_lock);
 		if (table->coder.number_of_compiles_required <= 0)
-			break ;
+			return (NULL);
 		compile(table);
 		debug(table);
 		refactor(table);
@@ -76,16 +76,15 @@ void	working_flow(t_node *table)
 
 void	*med_coders(void *arg)
 {
-	t_node			*table;
-	struct timeval	now;
+	t_node		*table;
+	static int	i;
 
 	table = (t_node *)arg;
 	table = table->next;
-	while (1)
+	while (i < table->coder.data->number_of_coders)
 	{
-		gettimeofday(&now, NULL);
 		pthread_mutex_lock(table->coder.data->med_lock);
-		if ((int)(get_time(now) - table->coder.last_compile)
+		if ((int)(get_time() - table->coder.last_compile)
 			> table->coder.data->time_to_burnout)
 		{
 			table->coder.data->coder_burnout = true;
@@ -93,6 +92,8 @@ void	*med_coders(void *arg)
 			codex_print(table, " is burnout");
 			break ;
 		}
+		if (table->coder.number_of_compiles_required == 0)
+			i++;
 		pthread_mutex_unlock(table->coder.data->med_lock);
 		usleep(100);
 		table = table->next;
@@ -105,7 +106,6 @@ int	main(int argc, char **argv)
 	t_data			*data;
 	t_node			*table;
 	pthread_mutex_t	*dongle_lock;
-	struct timeval	now;
 
 	table = NULL;
 	if (argc == 9)
@@ -115,8 +115,7 @@ int	main(int argc, char **argv)
 		data = data_inizialize(data);
 		data = data_define(data, argv);
 		dongle_lock = malloc(sizeof(pthread_mutex_t) * data->number_of_coders);
-		gettimeofday(&now, NULL);
-		data->start_time = get_time(now);
+		data->start_time = get_time();
 		table_generator(&table, data, dongle_lock);
 		working_flow(table);
 		node_clean(table, data, dongle_lock);

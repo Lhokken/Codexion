@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/28 17:07:38 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/10 17:31:17 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/11 11:21:47 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void				compile(t_node *table);
 void				debug(t_node *table);
 void				refactor(t_node *table);
 void				cooldown(t_node *table);
-unsigned long long	get_time(struct timeval tv);
+unsigned long long	get_time(void);
 void				validate(char **argv);
 void				compile_dongle_lock(t_node *table);
 void				*med_coders(void *arg);

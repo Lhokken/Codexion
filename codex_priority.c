@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/10 17:32:06 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/11 11:26:27 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,45 +27,42 @@ void	assign_priority_score(t_coder *coder, t_data *data)
 		printf("Scheduler input error");
 }
 
-unsigned long long	get_time(struct timeval tv)
+unsigned long long	get_time(void)
 {
-	return (((unsigned long long)tv.tv_sec * 1000) + \
-		((unsigned long long)tv.tv_usec / 1000));
+	struct timeval	now;
+
+	gettimeofday(&now, NULL);
+	return (((unsigned long long)now.tv_sec * 1000) + \
+		((unsigned long long)now.tv_usec / 1000));
 }
 
-int	cooldown_check(struct timeval now, unsigned long long available)
+static int	cooldown_check(unsigned long long available)
 {
-	if (available > get_time(now))
-		return (available - get_time(now));
+	if (available > get_time())
+		return (available - get_time());
 	else
 		return (0);
 }
 
 void	compile_dongle_lock(t_node *table)
 {
-	struct timeval	now;
-
 	if (table->coder.coder_id % 2 == 0)
 	{
 		pthread_mutex_lock(table->coder.right_dongle_lock);
-		gettimeofday(&now, NULL);
 		codex_print(table, " has taken a dongle");
-		usleep(cooldown_check(now, table->coder.right_dongle->awake) * 1000);
+		usleep(cooldown_check(table->coder.right_dongle->awake) * 1000);
 		pthread_mutex_lock(table->coder.left_dongle_lock);
-		gettimeofday(&now, NULL);
 		codex_print(table, " has taken a dongle");
-		usleep(cooldown_check(now, table->coder.left_dongle->awake) * 1000);
+		usleep(cooldown_check(table->coder.left_dongle->awake) * 1000);
 	}
 	else
 	{
 		pthread_mutex_lock(table->coder.left_dongle_lock);
-		gettimeofday(&now, NULL);
 		codex_print(table, " has taken a dongle");
-		usleep(cooldown_check(now, table->coder.left_dongle->awake) * 1000);
+		usleep(cooldown_check(table->coder.left_dongle->awake) * 1000);
 		pthread_mutex_lock(table->coder.right_dongle_lock);
-		gettimeofday(&now, NULL);
 		codex_print(table, " has taken a dongle");
-		usleep(cooldown_check(now, table->coder.right_dongle->awake) * 1000);
+		usleep(cooldown_check(table->coder.right_dongle->awake) * 1000);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/10 19:11:21 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/11 11:26:47 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,10 @@ void	codex_print(t_node *table, char *message)
 {
 	long			time;
 	int				id;
-	struct timeval	now;
 
-	gettimeofday(&now, NULL);
 	pthread_mutex_lock(table->print_lock);
 	pthread_mutex_lock(table->coder.data->med_lock);
-	time = get_time(now) - table->coder.data->start_time;
+	time = get_time() - table->coder.data->start_time;
 	id = table->coder.coder_id;
 	if (strcmp(message, " is burnout") == 0)
 		printf("%ld\t%d %s\n", time, id + 1, message);
@@ -36,20 +34,18 @@ void	codex_print(t_node *table, char *message)
 	pthread_mutex_unlock(table->coder.data->med_lock);
 }
 
-static void	coder_awake_set(t_node *table, struct timeval now)
+static void	coder_awake_set(t_node *table)
 {
-	table->coder.right_dongle->awake = (get_time (now)
+	table->coder.right_dongle->awake = (get_time()
 			+ table->coder.data->time_to_compile
 			+ table->coder.data->dongle_cooldown);
-	table->coder.left_dongle->awake = (get_time (now)
+	table->coder.left_dongle->awake = (get_time()
 			+ table->coder.data->time_to_compile
 			+ table->coder.data->dongle_cooldown);
 }
 
 void	compile(t_node *table)
 {
-	struct timeval	now;
-
 	pthread_mutex_lock(table->coder.data->med_lock);
 	if (table->coder.data->coder_burnout)
 	{
@@ -58,13 +54,12 @@ void	compile(t_node *table)
 	}
 	pthread_mutex_unlock(table->coder.data->med_lock);
 	compile_dongle_lock(table);
-	gettimeofday(&now, NULL);
 	pthread_mutex_lock(table->coder.data->med_lock);
-	table->coder.total_time = get_time(now) - table->coder.data->start_time;
-	table->coder.last_compile = get_time(now);
+	table->coder.total_time = get_time() - table->coder.data->start_time;
+	table->coder.last_compile = get_time();
 	pthread_mutex_unlock(table->coder.data->med_lock);
 	codex_print(table, " is compiling");
-	coder_awake_set(table, now);
+	coder_awake_set(table);
 	if (time_usleep(table->coder.time_to_compile, table))
 	{
 		pthread_mutex_unlock(table->coder.left_dongle_lock);
@@ -77,7 +72,6 @@ void	compile(t_node *table)
 
 void	debug(t_node *table)
 {
-	struct timeval	now;
 	bool			dead;
 
 	pthread_mutex_lock(table->coder.data->med_lock);
@@ -89,17 +83,15 @@ void	debug(t_node *table)
 		table->coder.number_of_compiles_required = 0;
 		return ;
 	}
-	gettimeofday(&now, NULL);
 	if (time_usleep(table->coder.time_to_debug, table))
 		return ;
 	pthread_mutex_lock(table->coder.data->med_lock);
-	table->coder.total_time = get_time(now) - table->coder.data->start_time;
+	table->coder.total_time = get_time() - table->coder.data->start_time;
 	pthread_mutex_unlock(table->coder.data->med_lock);
 }
 
 void	refactor(t_node *table)
 {
-	struct timeval	now;
 	bool			dead;
 
 	pthread_mutex_lock(table->coder.data->med_lock);
@@ -111,11 +103,10 @@ void	refactor(t_node *table)
 		table->coder.number_of_compiles_required = 0;
 		return ;
 	}
-	gettimeofday(&now, NULL);
 	if (time_usleep(table->coder.time_to_refactor, table))
 		return ;
 	pthread_mutex_lock(table->coder.data->med_lock);
-	table->coder.total_time = get_time(now) - table->coder.data->start_time;
+	table->coder.total_time = get_time() - table->coder.data->start_time;
 	pthread_mutex_unlock(table->coder.data->med_lock);
 	table->coder.number_of_compiles_required -= 1;
 }
