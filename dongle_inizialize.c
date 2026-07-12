@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/29 14:47:48 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/10 17:31:17 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/12 22:23:58 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ t_dongle	*dongle_create(t_data *data)
 	t_dongle	*dongle;
 
 	dongle = malloc(sizeof(t_dongle));
+	if (!dongle)
+		return (NULL);
+	memset(dongle, 0, sizeof(t_dongle));
 	dongle->awake = 0;
 	dongle->dongle_cooldown = data->dongle_cooldown;
 	dongle->scheduler = data->scheduler;

@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/29 14:47:48 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/11 11:27:07 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/12 22:25:11 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ t_node	*create_node(t_coder new_coder)
 	coder_place = malloc(sizeof(t_node));
 	if (!coder_place)
 		return (NULL);
+	memset(coder_place, 0, sizeof(t_node));
 	coder_place->coder = new_coder;
 	coder_place->next = NULL;
 	coder_place->prev = NULL;

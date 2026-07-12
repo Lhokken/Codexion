@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/10 14:31:51 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/12 22:24:39 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,9 @@ t_data	*data_define(t_data *data, char **argv)
 	data->scheduler = argv[8];
 	data->coder_burnout = false;
 	data->med_lock = malloc(sizeof(pthread_mutex_t));
+	if (!data->med_lock)
+		return (NULL);
+	memset(data->med_lock, 0, sizeof(pthread_mutex_t));
 	pthread_mutex_init(data->med_lock, NULL);
 	return (data);
 }

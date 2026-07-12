@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/12 19:34:22 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/12 22:23:31 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,9 +114,15 @@ int	main(int argc, char **argv)
 	{
 		validate(argv);
 		data = malloc(sizeof(t_data));
+		if (!data)
+			return (0);
+		memset(data, 0, sizeof(t_data));
 		data = data_inizialize(data);
 		data = data_define(data, argv);
 		dongle_lock = malloc(sizeof(pthread_mutex_t) * data->number_of_coders);
+		if (!dongle_lock)
+			return (0);
+		memset(dongle_lock, 0, sizeof(pthread_mutex_t));
 		data->start_time = get_time();
 		table_generator(&table, data, dongle_lock);
 		working_flow(table);
