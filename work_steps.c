@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/11 11:26:47 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/12 19:33:27 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ static void	coder_awake_set(t_node *table)
 void	compile(t_node *table)
 {
 	pthread_mutex_lock(table->coder.data->med_lock);
+	if (table->coder.data->number_of_coders == 1)
+		return ;
 	if (table->coder.data->coder_burnout)
 	{
 		table->coder.number_of_compiles_required = 0;
