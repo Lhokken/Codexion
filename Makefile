@@ -3,7 +3,8 @@ NAME = lib_codex.a
 CC = gcc
 CFLAGS = -g -Wall -Wextra -Werror -pthread
 
-SRCS = codex.c round_list.c inizialize_codex.c dongle_inizialize.c work_steps.c codex_priority.c codex_error.c
+SRCS = codex.c round_list.c inizialize_codex.c dongle_inizialize.c\
+work_steps.c codex_priority.c codex_error.c scheduler.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -11,7 +12,7 @@ TEST_SRC = codex.c
 
 TEST_NAME = codexion
 
-TEST_DATA = 10 910 200 200 200 3 200 fifo
+TEST_DATA = 10 1150 200 200 200 4 200 fifo
 
 # N cod-burn-com-deb-ref-N com-cool
 

@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/12 22:24:39 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/13 17:00:27 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	table_generator(
 		pthread_mutex_init(&dongle_lock[i], NULL);
 		coder.right_dongle_lock = &dongle_lock[i];
 		coder.coder_id = i;
+		coder.priority_score = i;
 		insert_tail(table, coder);
 		(*table)->coder.left_dongle = (*table)->prev->coder.right_dongle;
 		(*table)->coder.left_dongle_lock = \

@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/28 17:07:38 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/11 11:21:47 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/13 17:02:58 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,14 @@ typedef struct s_data
 
 typedef struct s_dongle
 {
+	int					next_turn;
 	int					dongle_id;
 	int					dongle_cooldown;
 	unsigned long long	awake;
 	char				*scheduler;
+	pthread_mutex_t     lock;
+    pthread_cond_t      cond;
+    bool                is_taken;
 }	t_dongle;
 
 typedef struct s_coder
@@ -60,7 +64,7 @@ typedef struct s_coder
 	int					time_to_refactor;
 	int					number_of_compiles_required;
 	int					dongle_cooldown;
-	unsigned long long	priority_score;
+	int					priority_score;
 	unsigned long long	total_time;
 	unsigned long long	last_compile;
 	struct timeval		start;
@@ -106,5 +110,8 @@ void				validate(char **argv);
 void				compile_dongle_lock(t_node *table);
 void				*med_coders(void *arg);
 bool				time_usleep(int time_left, t_node *table);
+void				assign_priority_score(t_coder *coder, t_data *data);
+void				wait_my_turn(t_node *table, t_dongle *dongle);
+void    			release_dongles(t_node *table);
 
 #endif
