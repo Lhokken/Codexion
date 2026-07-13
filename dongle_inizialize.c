@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/29 14:47:48 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/13 16:20:50 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/13 22:18:16 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_dongle	*dongle_create(t_data *data)
 	dongle = malloc(sizeof(t_dongle));
 	if (!dongle)
 		return (NULL);
-	memset(dongle, 0, sizeof(t_dongle));
+	pthread_mutex_init(&dongle->lock, NULL);
 	dongle->awake = 0;
 	dongle->dongle_cooldown = data->dongle_cooldown;
 	dongle->scheduler = data->scheduler;

@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/13 22:07:06 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/13 22:48:50 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,12 @@
 
 static bool is_my_turn(t_node *table, t_dongle *dongle)
 {
-    if (table->coder.priority_score == dongle->next_turn)
+    int priority;
+    
+    pthread_mutex_lock(table->coder.data->med_lock);
+    priority = table->coder.priority_score;
+    pthread_mutex_unlock(table->coder.data->med_lock);
+    if (priority == dongle->next_turn)
         return (true);
     return (false);
 }
