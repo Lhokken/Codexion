@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/13 17:03:25 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/13 22:07:06 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@ void    wait_my_turn(t_node *table, t_dongle *dongle)
 {
     while (1)
     {
+        pthread_mutex_lock(table->coder.data->med_lock);
+        bool is_burnout = table->coder.data->coder_burnout;
+        pthread_mutex_unlock(table->coder.data->med_lock);
         pthread_mutex_lock(&dongle->lock);
         if (is_my_turn(table, dongle)) 
         {
@@ -30,7 +33,7 @@ void    wait_my_turn(t_node *table, t_dongle *dongle)
             return ;
         }
         pthread_mutex_unlock(&dongle->lock);
-        if (table->coder.data->coder_burnout)
+        if (is_burnout)
             return ;
         usleep(1000);
     }
