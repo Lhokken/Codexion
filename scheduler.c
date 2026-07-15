@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/15 16:33:57 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/15 16:39:00 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void    wait_my_turn(t_node *table)
 {
     while (1)
     {
+        if (table->coder.data->coder_burnout)
+            return ;
         pthread_mutex_lock(table->coder.data->med_lock);
         if (table->coder.coder_id == table->coder.data->priority) 
         {
@@ -29,3 +31,32 @@ void    wait_my_turn(t_node *table)
     }
 }
 
+static int	cooldown_check(unsigned long long available)
+{
+	if (available > get_time())
+		return (available - get_time());
+	else
+		return (0);
+}
+
+void	compile_dongle_lock(t_node *table)
+{
+	if (table->coder.coder_id % 2 == 0)
+	{
+		pthread_mutex_lock(table->coder.right_dongle_lock);
+		codex_print(table, " has taken a dongle");
+		usleep(cooldown_check(table->coder.right_dongle->awake) * 1000);
+		pthread_mutex_lock(table->coder.left_dongle_lock);
+		codex_print(table, " has taken a dongle");
+		usleep(cooldown_check(table->coder.left_dongle->awake) * 1000);
+	}
+	else
+	{
+		pthread_mutex_lock(table->coder.left_dongle_lock);
+		codex_print(table, " has taken a dongle");
+		usleep(cooldown_check(table->coder.left_dongle->awake) * 1000);
+		pthread_mutex_lock(table->coder.right_dongle_lock);
+		codex_print(table, " has taken a dongle");
+		usleep(cooldown_check(table->coder.right_dongle->awake) * 1000);
+	}
+}
