@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/28 17:07:38 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/15 18:30:01 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/15 18:41:49 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef struct s_data
 	int					number_of_compiles_required;
 	int					dongle_cooldown;
 	int					priority;
-	int					edf_time;
+	int					edf_coder_id;
 	bool				coder_burnout;
 	char				*scheduler;
 	unsigned long long	start_time;
@@ -112,5 +112,6 @@ void				*med_coders(void *arg);
 bool				time_usleep(int time_left, t_node *table);
 void				wait_my_turn(t_node *table);
 void				release_dongles(t_node *table);
+void				edf_assignment(t_node *table);
 
 #endif

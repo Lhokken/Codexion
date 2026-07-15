@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/15 16:38:10 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/15 19:50:32 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,30 @@ bool	time_usleep(int time_left, t_node *table)
 		pthread_mutex_unlock(table->coder.data->med_lock);
 	}
 	return (false);
+}
+
+void	edf_assignment(t_node *table)
+{
+	t_node	*start;
+	long		dead;
+	long		temp;
+
+	dead = -1;
+	temp = 0;
+	start = table;
+	while (1)
+	{
+		if (table->coder.number_of_compiles_required > 0)
+		{
+			temp = (long)(get_time() - table->coder.last_compile);
+			if (dead < temp)
+			{
+				dead = temp;
+				table->coder.data->edf_coder_id = table->coder.coder_id;
+			}
+		}
+		if (table == start)
+			return ;
+		table = table->next;
+	}
 }
