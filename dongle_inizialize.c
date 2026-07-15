@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/29 14:47:48 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/15 13:38:08 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/15 17:30:21 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,6 @@ t_coder	coder_gen(t_data *data, int id)
 	coder.time_to_debug = data->time_to_debug;
 	coder.dongle_cooldown = data->dongle_cooldown;
 	coder.last_compile = data->start_time;
-	// coder.last_compile = get_time();
-
-
 	coder.total_time = 0;
 	coder.data = data;
 	return (coder);

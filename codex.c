@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/15 13:44:22 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/15 17:31:10 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,9 +126,6 @@ int	main(int argc, char **argv)
 		table_generator(&table, data, dongle_lock);
 		working_flow(table);
 		node_clean(table, data, dongle_lock);
-		pthread_mutex_destroy(data->med_lock);
-		free(data->med_lock);
-		free(data);
 	}
 	else
 		printf("\nRequired exactly 8 arguments\n\n");

@@ -1,7 +1,8 @@
 NAME = lib_codex.a
 
 CC = gcc
-CFLAGS = -g -Wall -Wextra -Werror -pthread
+CFLAGS = -Wall -Wextra -Werror -pthread
+GFLAGS = -g -Wall -Wextra -Werror -pthread
 
 SRCS = codex.c round_list.c inizialize_codex.c dongle_inizialize.c\
 work_steps.c codex_priority.c codex_error.c scheduler.c
@@ -12,7 +13,7 @@ TEST_SRC = codex.c
 
 TEST_NAME = codexion
 
-TEST_DATA = 3 1790 200 200 200 6 200 fifo
+TEST_DATA = 6 950 200 200 200 6 200 fifo
 
 # N cod-burn-com-deb-ref-N com-cool
 
@@ -36,6 +37,9 @@ re: fclean all clean
 cc: $(NAME) $(TEST_SRC)
 	$(CC) $(CFLAGS) $(SRCS) -L. -l_codex -o $(TEST_NAME)
 
+debug: $(NAME) $(TEST_SRC)
+	$(CC) $(GFLAGS) $(SRCS) -L. -l_codex -o $(TEST_NAME)
+
 run:
 	./$(TEST_NAME) $(TEST_DATA)
 
@@ -45,4 +49,4 @@ val:
 hel:
 	$(HELG) ./$(TEST_NAME) $(TEST_DATA)
 
-.PHONY: all clean fclean re cc run val hel
+.PHONY: all clean fclean re cc debug run val hel

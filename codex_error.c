@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/15 14:24:42 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/15 17:37:45 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ static void	validate_parameters(char **argv)
 		}
 		i++;
 	}
-	// burn-com-deb-ref-N com-cool
 }
 
 void	validate(char **argv)
@@ -73,7 +72,8 @@ void	validate(char **argv)
 		printf("Scheduler must be 'fifo' or 'edf'\n");
 		exit (0);
 	}
-	if (atoi(argv[i = 1]) == 0)
+	i = 1;
+	if (atoi(argv[i]) == 0)
 	{
 		printf("Number of coders must be > 0\n");
 		exit (0);

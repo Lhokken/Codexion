@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/29 14:47:48 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/15 13:34:33 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/15 17:31:18 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,4 +110,7 @@ void	node_clean(t_node *tail, t_data *data, pthread_mutex_t	*dongle_lock)
 		i++;
 	}
 	free(dongle_lock);
+	pthread_mutex_destroy(data->med_lock);
+	free(data->med_lock);
+	free(data);
 }

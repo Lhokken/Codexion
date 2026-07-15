@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/15 12:19:06 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/15 17:29:08 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ void	table_generator(
 		i++;
 	}
 	temp = *table;
-	for (i = 0; i < data->number_of_coders; i++)
+	i = 0;
+	while (i++ < data->number_of_coders)
 	{
 		temp->next->coder.left_dongle = temp->coder.right_dongle;
 		temp->next->coder.left_dongle_lock = temp->coder.right_dongle_lock;

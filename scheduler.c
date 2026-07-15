@@ -5,38 +5,41 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/15 17:16:30 by gcerrete         ###   ########.fr       */
+/*   Created: 2026/06/27 17:04:00 by  gcerrete         #+#    #+#             */
+/*   Updated: 2026/07/15 17:36:50 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lib_codex.h"
-static bool check_burnout(t_data *data)
+
+static bool	check_burnout(t_data *data)
 {
-    bool status;
-    pthread_mutex_lock(data->med_lock);
-    status = data->coder_burnout;
-    pthread_mutex_unlock(data->med_lock);
-    return (status);
+	bool	status;
+
+	pthread_mutex_lock(data->med_lock);
+	status = data->coder_burnout;
+	pthread_mutex_unlock(data->med_lock);
+	return (status);
 }
 
-void    wait_my_turn(t_node *table)
+void	wait_my_turn(t_node *table)
 {
-    while (1)
-    {
-        if (check_burnout(table->coder.data))
-            return ;
-        pthread_mutex_lock(table->coder.data->med_lock);
-        if (table->coder.coder_id == table->coder.data->priority) 
-        {
-            table->coder.data->priority
-                 = (table->coder.data->priority + 1) % table->coder.data->number_of_coders;
-            pthread_mutex_unlock(table->coder.data->med_lock);
-            return ;
-        }
-        pthread_mutex_unlock(table->coder.data->med_lock);
-        usleep(1000);
-    }
+	while (1)
+	{
+		if (check_burnout(table->coder.data))
+			return ;
+		pthread_mutex_lock(table->coder.data->med_lock);
+		if (table->coder.coder_id == table->coder.data->priority)
+		{
+			table->coder.data->priority
+				= (table->coder.data->priority + 1)
+				% table->coder.data->number_of_coders;
+			pthread_mutex_unlock(table->coder.data->med_lock);
+			return ;
+		}
+		pthread_mutex_unlock(table->coder.data->med_lock);
+		usleep(1000);
+	}
 }
 
 static int	cooldown_check(unsigned long long available)

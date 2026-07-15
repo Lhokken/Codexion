@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/28 17:07:38 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/15 13:44:07 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/15 17:28:17 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ typedef struct s_dongle
 	int					dongle_cooldown;
 	unsigned long long	awake;
 	char				*scheduler;
-	pthread_mutex_t     lock;
-    pthread_cond_t      cond;
-    bool                is_taken;
+	pthread_mutex_t		lock;
+	pthread_cond_t		cond;
+	bool				is_taken;
 }	t_dongle;
 
 typedef struct s_coder
@@ -112,6 +112,6 @@ void				compile_dongle_lock(t_node *table);
 void				*med_coders(void *arg);
 bool				time_usleep(int time_left, t_node *table);
 void				wait_my_turn(t_node *table);
-void    			release_dongles(t_node *table);
+void				release_dongles(t_node *table);
 
 #endif
