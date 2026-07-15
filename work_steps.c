@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/15 12:27:25 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/15 13:39:36 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	compile(t_node *table)
 	}
 	pthread_mutex_unlock(table->coder.data->med_lock);
 	
-	// wait_my_turn(table, table->coder.right_dongle);
+	// wait_my_turn(table);
     // wait_my_turn(table, table->coder.left_dongle);
 	compile_dongle_lock(table);
 	
@@ -67,9 +67,8 @@ void	compile(t_node *table)
 	
 	codex_print(table, " is compiling");
 	coder_awake_set(table);
-	// release_dongles(table);
-	// pthread_mutex_unlock(table->coder.left_dongle_lock);
-    // pthread_mutex_unlock(table->coder.right_dongle_lock);
+	pthread_mutex_unlock(table->coder.left_dongle_lock);
+    pthread_mutex_unlock(table->coder.right_dongle_lock);
 }
 
 void	debug(t_node *table)

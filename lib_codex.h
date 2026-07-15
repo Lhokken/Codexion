@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/28 17:07:38 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/14 22:50:35 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/15 13:44:07 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct s_data
 	int					time_to_refactor;
 	int					number_of_compiles_required;
 	int					dongle_cooldown;
-	int					global_ticket_dispenser;
+	int					priority;
 	bool				coder_burnout;
 	char				*scheduler;
 	unsigned long long	start_time;
@@ -58,6 +58,7 @@ typedef struct s_coder
 	t_dongle			*left_dongle;
 	pthread_mutex_t		*right_dongle_lock;
 	pthread_mutex_t		*left_dongle_lock;
+	pthread_mutex_t		*lock;
 	int					time_to_burnout;
 	int					time_to_compile;
 	int					time_to_debug;
@@ -110,8 +111,7 @@ void				validate(char **argv);
 void				compile_dongle_lock(t_node *table);
 void				*med_coders(void *arg);
 bool				time_usleep(int time_left, t_node *table);
-void				assign_priority_score(t_coder *coder, t_data *data);
-void				wait_my_turn(t_node *table, t_dongle *dongle);
+void				wait_my_turn(t_node *table);
 void    			release_dongles(t_node *table);
 
 #endif

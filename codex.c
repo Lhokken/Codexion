@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/14 21:41:54 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/15 13:44:22 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ void	*med_coders(void *arg)
 			> table->coder.data->time_to_burnout)
 		{
 			table->coder.data->coder_burnout = true;
-			assign_priority_score(&table->coder, table->coder.data);
 			pthread_mutex_unlock(table->coder.data->med_lock);
 			codex_print(table, " is burnout");
 			break ;

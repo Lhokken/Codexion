@@ -6,26 +6,11 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/14 22:54:38 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/15 13:44:01 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lib_codex.h"
-
-void	assign_priority_score(t_coder *coder, t_data *data)
-{
-	if (strcmp(data->scheduler, "fifo") == 0)
-	{
-		coder->priority_score = data->global_ticket_dispenser;
-		data->global_ticket_dispenser = (data->global_ticket_dispenser + 1) % data->number_of_coders;
-	}
-	else if (strcmp(data->scheduler, "edf") == 0)
-	{
-		coder->priority_score = coder->time_to_compile + data->time_to_burnout;
-	}
-	else
-		printf("Scheduler input error");
-}
 
 unsigned long long	get_time(void)
 {

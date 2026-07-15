@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/29 14:47:48 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/15 12:19:55 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/15 13:38:08 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,15 @@ t_dongle	*dongle_create(t_data *data)
 
 t_coder	coder_gen(t_data *data, int id)
 {
-	t_coder	coder;
+	t_coder			coder;
+	pthread_mutex_t	*lock;
 
+	lock = malloc(sizeof(pthread_mutex_t));
+	if (!lock)
+		exit(EXIT_FAILURE);
+	pthread_mutex_init(lock, NULL);
 	coder.coder_id = id;
+	coder.lock = lock;
 	coder.priority_score = id;
 	coder.right_dongle = dongle_create(data);
 	coder.right_dongle->dongle_id = id;
@@ -45,8 +51,6 @@ t_coder	coder_gen(t_data *data, int id)
 	// coder.last_compile = get_time();
 
 
-
-	
 	coder.total_time = 0;
 	coder.data = data;
 	return (coder);

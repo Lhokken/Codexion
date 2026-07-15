@@ -6,56 +6,28 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/15 12:21:46 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/15 13:47:50 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lib_codex.h"
 
-static bool is_my_turn(t_node *table, t_dongle *dongle)
-{
-    int priority;
-    
-    pthread_mutex_lock(table->coder.data->med_lock);
-    priority = table->coder.priority_score;
-    pthread_mutex_unlock(table->coder.data->med_lock);
-    if (priority == dongle->next_turn)
-        return (true);
-    return (false);
-}
-
-void    wait_my_turn(t_node *table, t_dongle *dongle)
+void    wait_my_turn(t_node *table)
 {
     while (1)
     {
-        pthread_mutex_lock(table->coder.data->med_lock);
-        bool is_burnout = table->coder.data->coder_burnout;
-        pthread_mutex_unlock(table->coder.data->med_lock);
-        pthread_mutex_lock(&dongle->lock);
-        if (is_my_turn(table, dongle)) 
+        pthread_mutex_lock(table->coder.lock);
+        if (table->coder.coder_id == table->coder.data->priority) 
         {
-            pthread_mutex_unlock(&dongle->lock);
+            table->coder.data->priority
+                 = (table->coder.data->priority + 1) % table->coder.data->number_of_coders;
+            pthread_mutex_unlock(table->coder.lock);
             return ;
         }
-        pthread_mutex_unlock(&dongle->lock);
-        if (is_burnout)
-            return ;
+        pthread_mutex_unlock(table->coder.lock);
+        // if (is_burnout)
+        //     return ;
         usleep(1000);
     }
 }
 
-void    release_dongles(t_node *table)
-{
-    pthread_mutex_lock(&table->coder.left_dongle->lock);
-    table->coder.left_dongle->next_turn = 
-        (table->coder.left_dongle->next_turn + 1)
-         % table->coder.data->number_of_coders;
-    pthread_mutex_unlock(&table->coder.left_dongle->lock);
-    pthread_mutex_lock(&table->coder.right_dongle->lock);
-    table->coder.right_dongle->next_turn = 
-        (table->coder.right_dongle->next_turn + 1)
-         % table->coder.data->number_of_coders;
-    pthread_mutex_unlock(&table->coder.right_dongle->lock);
-    pthread_mutex_unlock(table->coder.left_dongle_lock);
-    pthread_mutex_unlock(table->coder.right_dongle_lock);
-}
