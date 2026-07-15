@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/15 13:47:50 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/15 14:26:48 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ void    wait_my_turn(t_node *table)
             return ;
         }
         pthread_mutex_unlock(table->coder.lock);
-        // if (is_burnout)
-        //     return ;
         usleep(1000);
     }
 }

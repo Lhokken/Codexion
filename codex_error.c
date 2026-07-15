@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/10 17:37:17 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/15 14:24:42 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,34 @@ int	is_digit(char *str)
 		i++;
 	}
 	return (1);
+}
+
+static void	validate_parameters(char **argv)
+{
+	int	i;
+
+	i = 2;
+	while (i <= 7)
+	{
+		if (i == 6)
+		{
+			if (atoi(argv[i]) < 1)
+			{
+				printf("At least 1 compile to do\n");
+				exit (0);
+			}
+		}
+		else
+		{
+			if (atoi(argv[i]) < 10)
+			{
+				printf("Parameter is too low\n");
+				exit (0);
+			}
+		}
+		i++;
+	}
+	// burn-com-deb-ref-N com-cool
 }
 
 void	validate(char **argv)
@@ -45,4 +73,10 @@ void	validate(char **argv)
 		printf("Scheduler must be 'fifo' or 'edf'\n");
 		exit (0);
 	}
+	if (atoi(argv[i = 1]) == 0)
+	{
+		printf("Number of coders must be > 0\n");
+		exit (0);
+	}
+	validate_parameters(argv);
 }
