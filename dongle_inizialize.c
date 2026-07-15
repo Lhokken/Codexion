@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/29 14:47:48 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/13 22:18:16 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/15 12:19:55 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ t_coder	coder_gen(t_data *data, int id)
 	t_coder	coder;
 
 	coder.coder_id = id;
+	coder.priority_score = id;
 	coder.right_dongle = dongle_create(data);
 	coder.right_dongle->dongle_id = id;
 	coder.number_of_compiles_required = data->number_of_compiles_required;
@@ -41,6 +42,11 @@ t_coder	coder_gen(t_data *data, int id)
 	coder.time_to_debug = data->time_to_debug;
 	coder.dongle_cooldown = data->dongle_cooldown;
 	coder.last_compile = data->start_time;
+	// coder.last_compile = get_time();
+
+
+
+	
 	coder.total_time = 0;
 	coder.data = data;
 	return (coder);

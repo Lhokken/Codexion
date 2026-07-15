@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/28 17:07:38 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/14 22:14:34 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/14 22:50:35 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct s_data
 	int					time_to_refactor;
 	int					number_of_compiles_required;
 	int					dongle_cooldown;
-	unsigned long long	global_ticket_dispenser;
+	int					global_ticket_dispenser;
 	bool				coder_burnout;
 	char				*scheduler;
 	unsigned long long	start_time;

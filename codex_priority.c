@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/13 22:34:59 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/14 22:54:38 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	assign_priority_score(t_coder *coder, t_data *data)
 	if (strcmp(data->scheduler, "fifo") == 0)
 	{
 		coder->priority_score = data->global_ticket_dispenser;
-		data->global_ticket_dispenser++;
+		data->global_ticket_dispenser = (data->global_ticket_dispenser + 1) % data->number_of_coders;
 	}
 	else if (strcmp(data->scheduler, "edf") == 0)
 	{

@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/13 22:07:50 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/15 12:19:06 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	table_generator(
 {
 	int		i;
 	t_coder	coder;
+	t_node	*temp;
 
 	i = 0;
 	while (i < data->number_of_coders)
@@ -73,16 +74,14 @@ void	table_generator(
 		coder = coder_gen(data, i);
 		pthread_mutex_init(&dongle_lock[i], NULL);
 		coder.right_dongle_lock = &dongle_lock[i];
-		coder.coder_id = i;
-		coder.priority_score = i;
-		coder.last_compile = get_time();
 		insert_tail(table, coder);
-		(*table)->coder.left_dongle = (*table)->prev->coder.right_dongle;
-		(*table)->coder.left_dongle_lock = \
-			(*table)->prev->coder.right_dongle_lock;
 		i++;
 	}
-	(*table)->next->coder.left_dongle = (*table)->coder.right_dongle;
-	(*table)->next->coder.left_dongle_lock = \
-		(*table)->coder.right_dongle_lock;
+	temp = *table;
+	for (i = 0; i < data->number_of_coders; i++)
+	{
+		temp->next->coder.left_dongle = temp->coder.right_dongle;
+		temp->next->coder.left_dongle_lock = temp->coder.right_dongle_lock;
+		temp = temp->next;
+	}
 }
