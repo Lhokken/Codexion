@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/28 17:07:38 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/15 17:28:17 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/15 18:30:01 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ typedef struct s_data
 	int					number_of_compiles_required;
 	int					dongle_cooldown;
 	int					priority;
+	int					edf_time;
 	bool				coder_burnout;
 	char				*scheduler;
 	unsigned long long	start_time;
 	pthread_mutex_t		*med_lock;
-	pthread_t			id_med;
 }	t_data;
 
 typedef struct s_dongle
@@ -47,7 +47,6 @@ typedef struct s_dongle
 	unsigned long long	awake;
 	char				*scheduler;
 	pthread_mutex_t		lock;
-	pthread_cond_t		cond;
 	bool				is_taken;
 }	t_dongle;
 

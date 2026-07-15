@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/15 17:29:08 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/15 18:28:38 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ t_data	*data_inizialize(t_data	*data)
 	data->time_to_compile = 0;
 	data->time_to_debug = 0;
 	data->time_to_refactor = 0;
+	data->edf_time = 0;
 	data->number_of_compiles_required = 0;
 	data->dongle_cooldown = 0;
 	data->scheduler = "none";
