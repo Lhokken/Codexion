@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/16 19:38:07 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/16 22:36:12 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,12 @@ void	*working_steps(void *tabl)
 			pthread_mutex_unlock(table->coder.data->med_lock);
 			return (NULL);
 		}
-		pthread_mutex_unlock(table->coder.data->med_lock);
 		if (table->coder.number_of_compiles_required <= 0)
+		{
+			pthread_mutex_unlock(table->coder.data->med_lock);
 			return (NULL);
+		}
+		pthread_mutex_unlock(table->coder.data->med_lock);
 		compile(table);
 		debug(table);
 		refactor(table);

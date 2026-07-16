@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/16 19:56:02 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/16 23:10:46 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,16 @@ void	codex_print(t_node *table, char *message)
 
 static void	coder_awake_set(t_node *table)
 {
+	pthread_mutex_lock(table->coder.right_dongle_lock);
 	table->coder.right_dongle->awake = (get_time()
 			+ table->coder.data->time_to_compile
 			+ table->coder.data->dongle_cooldown);
+	pthread_mutex_unlock(table->coder.right_dongle_lock);
+	pthread_mutex_lock(table->coder.left_dongle_lock);
 	table->coder.left_dongle->awake = (get_time()
 			+ table->coder.data->time_to_compile
 			+ table->coder.data->dongle_cooldown);
+	pthread_mutex_unlock(table->coder.left_dongle_lock);
 }
 
 void	compile(t_node *table)
@@ -80,7 +84,9 @@ void	debug(t_node *table)
 	codex_print(table, " is debugging");
 	if (dead)
 	{
+		pthread_mutex_lock(table->coder.data->med_lock);
 		table->coder.number_of_compiles_required = 0;
+		pthread_mutex_unlock(table->coder.data->med_lock);
 		return ;
 	}
 	if (time_usleep(table->coder.time_to_debug, table))
@@ -97,10 +103,14 @@ void	refactor(t_node *table)
 	codex_print(table, " is refactoring");
 	if (dead)
 	{
+		pthread_mutex_lock(table->coder.data->med_lock);
 		table->coder.number_of_compiles_required = 0;
+		pthread_mutex_unlock(table->coder.data->med_lock);
 		return ;
 	}
 	if (time_usleep(table->coder.time_to_refactor, table))
 		return ;
+	pthread_mutex_lock(table->coder.data->med_lock);
 	table->coder.number_of_compiles_required -= 1;
+	pthread_mutex_unlock(table->coder.data->med_lock);
 }
