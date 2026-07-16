@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:04:00 by  gcerrete         #+#    #+#             */
-/*   Updated: 2026/07/16 18:22:15 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/16 19:17:05 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,15 @@ void	wait_my_turn(t_node *table)
 			pthread_mutex_unlock(table->coder.data->med_lock);
 			return ;
 		}
-		else if (table->coder.coder_id == table->coder.data->edf_coder_id)
+		else
 		{
-			pthread_mutex_unlock(table->coder.data->med_lock);
-			return ;
+			table->coder.wait_turn = true;
+			if (table->coder.coder_id == table->coder.data->edf_coder_id)
+			{
+				table->coder.wait_turn = false;
+				pthread_mutex_unlock(table->coder.data->med_lock);
+				return ;
+			}
 		}
 		pthread_mutex_unlock(table->coder.data->med_lock);
 		usleep(1000);

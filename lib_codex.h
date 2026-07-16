@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/28 17:07:38 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/16 18:08:50 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/16 19:16:34 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct s_coder
 	pthread_mutex_t		*right_dongle_lock;
 	pthread_mutex_t		*left_dongle_lock;
 	pthread_mutex_t		*lock;
+	bool				wait_turn;
 	int					time_to_burnout;
 	int					time_to_compile;
 	int					time_to_debug;

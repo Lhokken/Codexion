@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/29 14:47:48 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/16 18:11:48 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/16 19:19:01 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ t_coder	coder_gen(t_data *data, int id)
 	pthread_mutex_init(lock, NULL);
 	coder.coder_id = id;
 	coder.lock = lock;
+	coder.wait_turn = false;
 	coder.priority_score = id;
 	coder.right_dongle = dongle_create(data);
 	coder.right_dongle->dongle_id = id;

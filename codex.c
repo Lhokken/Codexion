@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/16 18:02:02 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/16 19:17:34 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	*med_coders(void *arg)
 	while (i < table->coder.data->number_of_coders)
 	{
 		pthread_mutex_lock(table->coder.data->med_lock);
-		if (strcmp(table->coder.data->scheduler, "edf") == 0)
+		if (strcmp(table->coder.data->scheduler, "edf") == 0 && table->coder.wait_turn == true)
 			edf_assignment(table);
 		if ((int)(get_time() - table->coder.last_compile)
 			> table->coder.data->time_to_burnout)
