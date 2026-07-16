@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/28 17:07:38 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/15 18:41:49 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/16 18:08:50 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ typedef struct s_coder
 	int					number_of_compiles_required;
 	int					dongle_cooldown;
 	int					priority_score;
-	unsigned long long	total_time;
+	// unsigned long long	total_time;
 	unsigned long long	last_compile;
 	struct timeval		start;
 	struct timeval		end;

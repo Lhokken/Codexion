@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:04:00 by  gcerrete         #+#    #+#             */
-/*   Updated: 2026/07/15 19:51:40 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/16 18:22:15 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ void	compile_dongle_lock(t_node *table)
 		pthread_mutex_lock(table->coder.left_dongle_lock);
 		codex_print(table, " has taken a dongle");
 		usleep(cooldown_check(table->coder.left_dongle->awake) * 1000);
+		pthread_mutex_unlock(table->coder.left_dongle_lock);
+		pthread_mutex_unlock(table->coder.right_dongle_lock);
 	}
 	else
 	{
@@ -80,5 +82,7 @@ void	compile_dongle_lock(t_node *table)
 		pthread_mutex_lock(table->coder.right_dongle_lock);
 		codex_print(table, " has taken a dongle");
 		usleep(cooldown_check(table->coder.right_dongle->awake) * 1000);
+		pthread_mutex_unlock(table->coder.right_dongle_lock);
+		pthread_mutex_unlock(table->coder.left_dongle_lock);
 	}
 }
