@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/16 19:17:34 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/16 19:38:07 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	*working_steps(void *tabl)
 			pthread_mutex_unlock(table->coder.data->med_lock);
 			return (NULL);
 		}
-		// printf("test\n");
 		pthread_mutex_unlock(table->coder.data->med_lock);
 		if (table->coder.number_of_compiles_required <= 0)
 			return (NULL);
@@ -82,12 +81,12 @@ void	*med_coders(void *arg)
 	t_node		*table;
 	static int	i;
 
-	table = (t_node *)arg;
-	table = table->next;
+	table = ((t_node *)arg)->next;
 	while (i < table->coder.data->number_of_coders)
 	{
 		pthread_mutex_lock(table->coder.data->med_lock);
-		if (strcmp(table->coder.data->scheduler, "edf") == 0 && table->coder.wait_turn == true)
+		if (strcmp(table->coder.data->scheduler, "edf") == 0
+			&& table->coder.wait_turn == true)
 			edf_assignment(table);
 		if ((int)(get_time() - table->coder.last_compile)
 			> table->coder.data->time_to_burnout)
@@ -98,7 +97,7 @@ void	*med_coders(void *arg)
 			break ;
 		}
 		if (table->coder.number_of_compiles_required == 0)
-		i++;
+			i++;
 		pthread_mutex_unlock(table->coder.data->med_lock);
 		usleep(100);
 		table = table->next;

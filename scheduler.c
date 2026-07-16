@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:04:00 by  gcerrete         #+#    #+#             */
-/*   Updated: 2026/07/16 19:17:05 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/16 19:38:54 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,6 @@ static bool	check_burnout(t_data *data)
 	return (status);
 }
 
-// bool	edf_turn_choice(t_node *table)
-// {
-// 	return (true);
-// }
-
 void	wait_my_turn(t_node *table)
 {
 	while (1)
@@ -37,8 +32,7 @@ void	wait_my_turn(t_node *table)
 		if (strcmp(table->coder.data->scheduler, "fifo") == 0
 			&& table->coder.coder_id == table->coder.data->priority)
 		{
-			table->coder.data->priority
-				= (table->coder.data->priority + 1)
+			table->coder.data->priority = (table->coder.data->priority + 1)
 				% table->coder.data->number_of_coders;
 			pthread_mutex_unlock(table->coder.data->med_lock);
 			return ;
