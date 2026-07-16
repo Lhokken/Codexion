@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/16 19:08:34 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/16 19:59:41 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ bool	time_usleep(int time_left, t_node *table)
 void	edf_assignment(t_node *table)
 {
 	t_node	*start;
-	long		dead;
-	long		temp;
+	long	dead;
+	long	temp;
 
 	dead = -1;
 	temp = 0;

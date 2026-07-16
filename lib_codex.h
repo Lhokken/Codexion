@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/28 17:07:38 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/16 19:16:34 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/16 19:58:44 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct s_data
 	int					time_to_refactor;
 	int					number_of_compiles_required;
 	int					dongle_cooldown;
-	int					priority;
+	int					prior;
 	int					edf_coder_id;
 	bool				coder_burnout;
 	char				*scheduler;
@@ -111,7 +111,7 @@ void				validate(char **argv);
 void				compile_dongle_lock(t_node *table);
 void				*med_coders(void *arg);
 bool				time_usleep(int time_left, t_node *table);
-void				wait_my_turn(t_node *table);
+void				wait_my_turn(t_node *table, int ncod);
 void				release_dongles(t_node *table);
 void				edf_assignment(t_node *table);
 

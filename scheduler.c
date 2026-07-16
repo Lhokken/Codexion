@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:04:00 by  gcerrete         #+#    #+#             */
-/*   Updated: 2026/07/16 19:38:54 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/16 19:58:33 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static bool	check_burnout(t_data *data)
 	return (status);
 }
 
-void	wait_my_turn(t_node *table)
+void	wait_my_turn(t_node *table, int ncod)
 {
 	while (1)
 	{
@@ -30,10 +30,9 @@ void	wait_my_turn(t_node *table)
 			return ;
 		pthread_mutex_lock(table->coder.data->med_lock);
 		if (strcmp(table->coder.data->scheduler, "fifo") == 0
-			&& table->coder.coder_id == table->coder.data->priority)
+			&& table->coder.coder_id == table->coder.data->prior)
 		{
-			table->coder.data->priority = (table->coder.data->priority + 1)
-				% table->coder.data->number_of_coders;
+			table->coder.data->prior = (table->coder.data->prior + 1) % ncod;
 			pthread_mutex_unlock(table->coder.data->med_lock);
 			return ;
 		}
