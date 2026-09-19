@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/16 23:10:46 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/09/19 23:04:54 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	codex_print(t_node *table, char *message)
 	long			time;
 	int				id;
 
+	int				color;
 	pthread_mutex_lock(table->print_lock);
 	pthread_mutex_lock(table->coder.data->med_lock);
 	time = get_time() - table->coder.data->start_time;
@@ -29,7 +30,8 @@ void	codex_print(t_node *table, char *message)
 		pthread_mutex_unlock(table->coder.data->med_lock);
 		return ;
 	}
-	printf("%ld\t%d %s\n", time, id + 1, message);
+	color = (id % 7) + 31;
+	printf("\e[31;%dm%ld\t%d %s\e[0m\n", color, time, id + 1, message);
 	pthread_mutex_unlock(table->print_lock);
 	pthread_mutex_unlock(table->coder.data->med_lock);
 }

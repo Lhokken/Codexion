@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/29 14:47:48 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/16 19:19:01 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/17 14:21:52 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_dongle	*dongle_create(t_data *data)
 	pthread_mutex_init(&dongle->lock, NULL);
 	dongle->awake = 0;
 	dongle->dongle_cooldown = data->dongle_cooldown;
-	dongle->scheduler = data->scheduler;
+	dongle->scheduler = data->sched;
 	dongle->next_turn = 0;
 	return (dongle);
 }

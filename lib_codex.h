@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/28 17:07:38 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/16 19:58:44 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/17 14:22:21 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct s_data
 	int					prior;
 	int					edf_coder_id;
 	bool				coder_burnout;
-	char				*scheduler;
+	char				*sched;
 	unsigned long long	start_time;
 	pthread_mutex_t		*med_lock;
 }	t_data;

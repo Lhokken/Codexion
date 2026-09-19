@@ -20,8 +20,30 @@ EDF (Earliest Deadline First): This algorithm prioritizes tasks based on their p
 
 Task Cycles: Coders perform these actions sequentially, ensuring that resource acquisition and release are handled safely to avoid deadlocks.
 
+### Blocking cases handled
+A primary strategy to mitigate potential deadlocks is the implementation of an asymmetrical resource acquisition order. By ensuring that adjacent coders follow a different request sequence—specifically, having one coder request their left dongle before their right, while the adjacent coder requests the right dongle before the left—we effectively break the Circular Wait condition. This prevents the formation of circular dependencies among concurrent threads, thereby natively avoiding classic deadlock scenarios.
+
+### Thread synchronization mechanisms
+To ensure safe concurrent access, we utilize mutexes to manage resource contention:  
+
+Global Coordination: A dedicated mutex (med_lock) is utilized by the med_coders monitor to manage global system state transitions and ensure synchronized access to shared data.  
+
+Resource Protection: Individual mutexes are assigned to each dongle to govern exclusive access.  
+
+Shared Infrastructure: Given that the right dongle of one coder serves as the left dongle for the adjacent coder, their corresponding locks are also shared between the two entities.  
+
+Turn-based Access: Coders must execute the wait_my_turn function before attempting to acquire any hardware resources, ensuring they adhere to the assigned scheduling policy before requesting dongle access.  
+
 ### Monitoring (Med Coders)
-I implemented a specialized med_coders monitor thread that oversees the system state. Its primary responsibility is to track the last compilation time of each coder. If any coder exceeds the time_to_burnout threshold, the monitor triggers a burnout state, which safely halts all active processes and terminates the execution.
+The system employs a specialized monitor thread, med_coders, which serves as a central observer of the system state. This monitor provides several key functions:  
+
+State Tracking: It continuously tracks the last_compile timestamp for every coder in the system.  
+
+Burnout Prevention: By comparing the elapsed time since the last compilation against the time_to_burnout threshold, the monitor can identify potential failures before they compromise system integrity.  
+
+Graceful Termination: Should any coder exceed the burnout threshold, the monitor triggers a global coder_burnout state. This flag is checked by all active threads, ensuring a coordinated halt of all processes and a safe termination of the execution.  
+
+Centralized Information Access: This architecture creates a single source of truth, allowing all coder threads to safely query the global system status through the protected med_lock interface.
 
 ## Instructions
 

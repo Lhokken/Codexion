@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:44:02 by gcerrete          #+#    #+#             */
-/*   Updated: 2026/07/15 19:23:38 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/07/17 14:21:52 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_data	*data_inizialize(t_data	*data)
 	data->edf_coder_id = 0;
 	data->number_of_compiles_required = 0;
 	data->dongle_cooldown = 0;
-	data->scheduler = "none";
+	data->sched = "none";
 	return (data);
 }
 
@@ -35,7 +35,7 @@ t_data	*data_define(t_data *data, char **argv)
 	data->time_to_refactor = atoi(argv[5]);
 	data->number_of_compiles_required = atoi(argv[6]);
 	data->dongle_cooldown = atoi(argv[7]);
-	data->scheduler = argv[8];
+	data->sched = argv[8];
 	data->coder_burnout = false;
 	data->med_lock = malloc(sizeof(pthread_mutex_t));
 	if (!data->med_lock)
@@ -55,7 +55,7 @@ void	data_print(t_data *data)
 	printf("number_of_compiles_required %d\n",
 		data->number_of_compiles_required);
 	printf("dongle_cooldown %d\n", data->dongle_cooldown);
-	printf("scheduler %s\n", data->scheduler);
+	printf("scheduler %s\n", data->sched);
 	printf("\n");
 }
 
