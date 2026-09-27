@@ -6,7 +6,7 @@
 /*   By: gcerrete <gcerrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 17:04:00 by  gcerrete         #+#    #+#             */
-/*   Updated: 2026/07/17 14:21:52 by gcerrete         ###   ########.fr       */
+/*   Updated: 2026/09/27 19:00:01 by gcerrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,23 +72,23 @@ void	compile_dongle_lock(t_node *table)
 	if (table->coder.coder_id % 2 == 0)
 	{
 		pthread_mutex_lock(table->coder.right_dongle_lock);
-		codex_print(table, " has taken a dongle");
 		usleep(cooldown_check(table->coder.right_dongle->awake) * 1000);
+		codex_print(table, " has taken right dongle");
 		pthread_mutex_lock(table->coder.left_dongle_lock);
-		codex_print(table, " has taken a dongle");
 		usleep(cooldown_check(table->coder.left_dongle->awake) * 1000);
-		pthread_mutex_unlock(table->coder.left_dongle_lock);
-		pthread_mutex_unlock(table->coder.right_dongle_lock);
+		codex_print(table, " has taken left dongle");
+		// pthread_mutex_unlock(table->coder.left_dongle_lock);
+		// pthread_mutex_unlock(table->coder.right_dongle_lock);
 	}
 	else
 	{
 		pthread_mutex_lock(table->coder.left_dongle_lock);
-		codex_print(table, " has taken a dongle");
 		usleep(cooldown_check(table->coder.left_dongle->awake) * 1000);
+		codex_print(table, " has taken left dongle");
 		pthread_mutex_lock(table->coder.right_dongle_lock);
-		codex_print(table, " has taken a dongle");
 		usleep(cooldown_check(table->coder.right_dongle->awake) * 1000);
-		pthread_mutex_unlock(table->coder.right_dongle_lock);
-		pthread_mutex_unlock(table->coder.left_dongle_lock);
+		codex_print(table, " has taken right dongle");
+		// pthread_mutex_unlock(table->coder.right_dongle_lock);
+		// pthread_mutex_unlock(table->coder.left_dongle_lock);
 	}
 }
